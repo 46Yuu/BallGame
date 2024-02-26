@@ -16,9 +16,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maxSpeed = 20;
-        moveSpeed = 10;
-        rotateSpeed = 2;
+        maxSpeed = 15;
+        moveSpeed = 15;
+        rotateSpeed = 3;
         rb = GetComponent<Rigidbody>();
         //cam = GetComponent<Camera>();
     }

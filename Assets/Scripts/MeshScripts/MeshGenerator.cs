@@ -27,10 +27,11 @@ public class MeshGenerator : MonoBehaviour
         Random.InitState(initialSeed);
         intSeeded = Random.Range(1f,1000f);
         mesh = new Mesh();
-        GetComponent<MeshFilter>().mesh = mesh;
-
         CreateShape();   
         UpdateMesh();
+        GetComponent<MeshFilter>().mesh = mesh;
+        GetComponent<MeshCollider>().sharedMesh = mesh;
+
     }
 
 
@@ -40,7 +41,7 @@ public class MeshGenerator : MonoBehaviour
         {
             for(int x = 0; x <= xSize ; x++)
             {
-                float y = Mathf.PerlinNoise(intSeeded+x*0.3f,intSeeded+z*0.8f) ;
+                float y = Mathf.PerlinNoise(intSeeded+x*0.1f,intSeeded+z*0.1f) *3f;
                 vertices[i] = new UnityEngine.Vector3(x,y,z);
 
                 if(y > maxTerrainHeight)
