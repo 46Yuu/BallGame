@@ -8,25 +8,37 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     //[SerializeField] private Camera cam;
     public Vector3 velocity;
-    [SerializeField] private float moveForce;
+    private float moveForce;
     [SerializeField] private float moveSpeed;
     private int maxSpeed;
     [SerializeField] private Vector3 rotateForce;
     [SerializeField] private float rotateSpeed;
+    enum PlayerNbr {Player_1, Player_2};
+    [SerializeField] private PlayerNbr myNumber;
+    [SerializeField] private float sprintTimer;
     // Start is called before the first frame update
     void Start()
     {
-        maxSpeed = 15;
-        moveSpeed = 15;
+        maxSpeed = 10;
+        moveSpeed = 100;
         rotateSpeed = 3;
         rb = GetComponent<Rigidbody>();
         //cam = GetComponent<Camera>();
     }
     void Update()
     {
-        rotateForce = new Vector3(0,Input.GetAxis("Horizontal"),0);
-        moveForce = Input.GetAxis("Vertical");
+        if(myNumber == PlayerNbr.Player_1)
+        {
+            rotateForce = new Vector3(0,Input.GetAxis("Player1H"),0);
+            moveForce = Input.GetAxis("Player1V");
+        }
+        else
+        {
+            rotateForce = new Vector3(0, Input.GetAxis("Player2H"), 0);
+            moveForce = Input.GetAxis("Player2V");
+        }
         Mathf.Clamp(rb.velocity.magnitude, 0, maxSpeed);
+        Debug.Log(rb.velocity.magnitude);
     }
     void FixedUpdate()
     {
