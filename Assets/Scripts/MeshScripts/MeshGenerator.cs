@@ -21,7 +21,7 @@ public class MeshGenerator : MonoBehaviour
     private float maxTerrainHeight;
     public Gradient gradient;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         initialSeed = Random.Range(0,999);
         Random.InitState(initialSeed);

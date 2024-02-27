@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     {
         maxSpeed = 15;
         moveSpeed = 15;
-        rotateSpeed = 3;
+        rotateSpeed = 5;
         rb = GetComponent<Rigidbody>();
         //cam = GetComponent<Camera>();
     }
