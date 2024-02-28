@@ -7,6 +7,7 @@ public class MeshGenerator : MonoBehaviour
 {
     Mesh mesh;
 
+    public List<GameObject> walls;
     UnityEngine.Vector3[] vertices;
     int[] triangles;
     Color[] colors;
@@ -31,7 +32,7 @@ public class MeshGenerator : MonoBehaviour
         UpdateMesh();
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshCollider>().sharedMesh = mesh;
-
+        SetupWalls();
     }
 
 
@@ -96,5 +97,23 @@ public class MeshGenerator : MonoBehaviour
         mesh.colors = colors;
 
         mesh.RecalculateNormals();
+    }
+
+    void SetupWalls()
+    {
+        walls[0].transform.position = new UnityEngine.Vector3(0,0,-(zSize)/2);
+        walls[0].transform.localScale = new UnityEngine.Vector3(xSize / 10,1,5);
+
+        walls[1].transform.position = new UnityEngine.Vector3(0, 0, zSize/2);
+        walls[1].transform.localScale = new UnityEngine.Vector3(xSize / 10, 1, 5);
+
+        walls[2].transform.position = new UnityEngine.Vector3(-(xSize)/2, 0, 0);
+        walls[2].transform.localScale = new UnityEngine.Vector3(xSize / 10, 1, 5);
+
+        walls[3].transform.position = new UnityEngine.Vector3(xSize/2, 0, 0);
+        walls[3].transform.localScale = new UnityEngine.Vector3(xSize / 10, 1, 5);
+
+        walls[4].transform.position = new UnityEngine.Vector3(0, 25, 0);
+        walls[4].transform.localScale = new UnityEngine.Vector3(xSize / 10, 1, zSize / 10);
     }
 }

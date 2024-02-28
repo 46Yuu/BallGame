@@ -29,6 +29,6 @@ public class CannonScript : MonoBehaviour
     
     void ShootBall(){
         GameObject temp = Instantiate(ball, SpawnPoint.position, Quaternion.identity);
-        temp.GetComponent<Rigidbody>().AddForce(Vector3.forward * 1000);
+        temp.GetComponent<Rigidbody>().AddForce(SpawnPoint.transform.right * 2000);
     }
 }

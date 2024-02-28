@@ -5,15 +5,25 @@ using UnityEngine;
 public class ObstacleGenerator : MonoBehaviour
 {
     public List<GameObject> listObstacles = new List<GameObject>();
-    public List<GameObject> createdObstacles = new List<GameObject>();
+    private List<Transform> SpawnPointsCannon = new List<Transform>();
     private MeshGenerator meshGenerator;
+    public GameObject cannon;
+    public int numCannons;
 
+    void Awake()
+    {
+        foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("CannonSpawnPoint"))
+        {
+            SpawnPointsCannon.Add(gameObject.GetComponent<Transform>());
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
         meshGenerator = FindAnyObjectByType<MeshGenerator>();
         Random.InitState(meshGenerator.initialSeed);
         generateObstacles();
+        generateCannon();
     }
 
     void generateObstacles()
@@ -29,7 +39,6 @@ public class ObstacleGenerator : MonoBehaviour
                 int indexObstacle = Random.Range(0, listObstacles.Count);
                 GameObject obstacle = Instantiate(listObstacles[indexObstacle], new Vector3(sample.x, Random.Range(0,10), sample.y)+transform.position, Quaternion.identity);
                 obstacle.transform.localScale = new Vector3(scaleObstacle, scaleObstacle, scaleObstacle);
-                createdObstacles.Add(obstacle);
             }
         }
     }
@@ -109,4 +118,17 @@ public class ObstacleGenerator : MonoBehaviour
         }
         return samples;
     }
+
+    void generateCannon()
+    {
+        int numCannonsToSpawn = Random.Range(1, numCannons);
+        for (int i = 0; i < numCannonsToSpawn; i++)
+        {
+            int cannonToSpawn = Random.Range(0, SpawnPointsCannon.Count);
+            Instantiate(cannon, SpawnPointsCannon[cannonToSpawn].position, SpawnPointsCannon[cannonToSpawn].rotation);
+            SpawnPointsCannon.RemoveAt(cannonToSpawn);
+        }
+       
+    }
+
 }
