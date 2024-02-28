@@ -38,7 +38,6 @@ public class PlayerController : MonoBehaviour
             moveForce = Input.GetAxis("Player2V");
         }
         Mathf.Clamp(rb.velocity.magnitude, 0, maxSpeed);
-        Debug.Log(rb.velocity.magnitude);
     }
     void FixedUpdate()
     {
