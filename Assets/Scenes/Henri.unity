@@ -759,7 +759,7 @@ Transform:
   m_GameObject: {fileID: 1481026101}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -92.27678, y: -37.708244, z: 25.720472}
+  m_LocalPosition: {x: -50, y: 0, z: -50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -928,7 +928,7 @@ MonoBehaviour:
     key1: {r: 0.2830189, g: 0.05292223, b: 0, a: 1}
     key2: {r: 0.6037736, g: 0.109898865, b: 0.031327877, a: 0}
     key3: {r: 0.5943396, g: 0.48799238, b: 0.21586862, a: 0}
-    key4: {r: 1, g: 1, b: 1, a: 0}
+    key4: {r: 0.9056604, g: 0.74037886, b: 0.6536134, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}

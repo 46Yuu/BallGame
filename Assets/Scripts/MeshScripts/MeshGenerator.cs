@@ -11,8 +11,8 @@ public class MeshGenerator : MonoBehaviour
     int[] triangles;
     Color[] colors;
 
-    public int xSize = 50;
-    public int zSize = 50;
+    public int xSize;
+    public int zSize;
 
     public int initialSeed;
     public float intSeeded;
@@ -41,7 +41,7 @@ public class MeshGenerator : MonoBehaviour
         {
             for(int x = 0; x <= xSize ; x++)
             {
-                float y = Mathf.PerlinNoise(intSeeded+x*0.1f,intSeeded+z*0.1f) *3f;
+                float y = Mathf.PerlinNoise(intSeeded+x*0.05f,intSeeded+z*0.05f) *5f;
                 vertices[i] = new UnityEngine.Vector3(x,y,z);
 
                 if(y > maxTerrainHeight)
