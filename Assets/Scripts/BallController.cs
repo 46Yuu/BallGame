@@ -5,6 +5,7 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     private Rigidbody rb;
+    public GameObject latesPlayerHit;
     // Start is called before the first frame update
     void Awake()
     {
@@ -22,6 +23,7 @@ public class BallController : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             rb.AddForce((collision.gameObject.transform.position - transform.position).normalized * collision.gameObject.GetComponent<Rigidbody>().velocity.magnitude, ForceMode.Impulse);
+            latesPlayerHit = collision.gameObject;
         }
     }
 }

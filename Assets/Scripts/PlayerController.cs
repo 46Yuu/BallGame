@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
+    public string playerName;
     //[SerializeField] private Camera cam;
     public Vector3 velocity;
     private float moveForce;
@@ -13,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private int maxSpeed;
     [SerializeField] private Vector3 rotateForce;
     [SerializeField] private float rotateSpeed;
-    enum PlayerNbr {Player_1, Player_2};
+    enum PlayerNbr {Player_1, Player_2, Player_3, Player_4};
     [SerializeField] private PlayerNbr myNumber;
     [SerializeField] private float sprintTimer;
     // Start is called before the first frame update
@@ -38,7 +39,7 @@ public class PlayerController : MonoBehaviour
             moveForce = Input.GetAxis("Player2V");
         }
         Mathf.Clamp(rb.velocity.magnitude, 0, maxSpeed);
-        Debug.Log(rb.velocity.magnitude);
+        //Debug.Log(rb.velocity.magnitude);
     }
     void FixedUpdate()
     {
