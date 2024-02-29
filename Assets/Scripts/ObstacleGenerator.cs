@@ -22,13 +22,14 @@ public class ObstacleGenerator : MonoBehaviour
     {
         meshGenerator = FindAnyObjectByType<MeshGenerator>();
         Random.InitState(meshGenerator.initialSeed);
+        GetComponent<Transform>().position = new Vector3(-(meshGenerator.xSize/2),0,-(meshGenerator.zSize/2));
         generateObstacles();
         generateCannon();
     }
 
     void generateObstacles()
     {
-        int numObstacles = Random.Range(5, 15);
+        int numObstacles = Random.Range(2 , meshGenerator.xSize / 10);
         Vector2 sample_zone = new Vector2(meshGenerator.xSize, meshGenerator.zSize);
         List<Vector2> tempSamples = GeneratePoint(20, sample_zone, numObstacles);
         if (tempSamples != null)

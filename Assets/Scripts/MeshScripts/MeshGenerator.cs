@@ -30,6 +30,7 @@ public class MeshGenerator : MonoBehaviour
         mesh = new Mesh();
         CreateShape();   
         UpdateMesh();
+        GetComponent<Transform>().position = new UnityEngine.Vector3(-(xSize/2),0,-(zSize/2));
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshCollider>().sharedMesh = mesh;
         SetupWalls();
@@ -108,10 +109,10 @@ public class MeshGenerator : MonoBehaviour
         walls[1].transform.localScale = new UnityEngine.Vector3(xSize / 10, 1, 5);
 
         walls[2].transform.position = new UnityEngine.Vector3(-(xSize)/2, 0, 0);
-        walls[2].transform.localScale = new UnityEngine.Vector3(xSize / 10, 1, 5);
+        walls[2].transform.localScale = new UnityEngine.Vector3(zSize / 10, 1, 5);
 
         walls[3].transform.position = new UnityEngine.Vector3(xSize/2, 0, 0);
-        walls[3].transform.localScale = new UnityEngine.Vector3(xSize / 10, 1, 5);
+        walls[3].transform.localScale = new UnityEngine.Vector3(zSize / 10, 1, 5);
 
         walls[4].transform.position = new UnityEngine.Vector3(0, 25, 0);
         walls[4].transform.localScale = new UnityEngine.Vector3(xSize / 10, 1, zSize / 10);
