@@ -20,17 +20,19 @@ public class GameController : MonoBehaviour
     }
 
     public int scoreToWin = 10;
+    public HUDController hudController;
+
 
     private GameObject Ball;
     private GameObject startPosBall;
 
     private GameObject Player_1;
     private GameObject startPosP1;
-    private int scoreP1 = 0;
+    public int scoreP1 = 0;
 
     private GameObject Player_2;
     private GameObject startPosP2;
-    private int scoreP2 = 0;
+    public int scoreP2 = 0;
 
     private void Start()
     {
@@ -40,7 +42,7 @@ public class GameController : MonoBehaviour
         startPosBall = GameObject.Find("startPosBall");
         startPosP1 = GameObject.Find("startPosP1");
         startPosP2 = GameObject.Find("startPosP2");
-
+        hudController = GameObject.Find("ScoreHud").GetComponent<HUDController>();
         RoundStart();
     }
 
