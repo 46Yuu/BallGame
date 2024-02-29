@@ -5,7 +5,7 @@ using UnityEngine;
 public class CageController : MonoBehaviour
 {
     enum PlayerGoal { Goal_1,Goal_2};
-    PlayerGoal goal;
+    [SerializeField] PlayerGoal goal;
     // Start is called before the first frame update
     void Start()
     {

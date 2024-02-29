@@ -60,9 +60,12 @@ public class GameController : MonoBehaviour
 
     public void CheckScore()
     {
-        if(scoreP1 == scoreToWin)
+        if(scoreP1 == scoreToWin ||scoreP2 == scoreToWin)
         {
             SceneManager.LoadScene(0);
+            scoreP1 = 0;
+            scoreP2 = 0;
         }
+
     }
 }
