@@ -12,6 +12,8 @@ public class MeshGenerator : MonoBehaviour
     int[] triangles;
     Color[] colors;
 
+    public List<GameObject> cageList;
+
     public int xSize;
     public int zSize;
 
