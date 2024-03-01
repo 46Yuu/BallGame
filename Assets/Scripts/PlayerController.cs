@@ -6,44 +6,90 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
+    [SerializeField] private CapsuleCollider collider;
+
+
     public string playerName;
     //[SerializeField] private Camera cam;
     public Vector3 velocity;
-    private float moveForce;
+
+    private float baseDrag = 5;
+
+    private float moveInput;
     [SerializeField] private float moveSpeed;
+    private Vector3 rotateInput;
+    private float rotateSpeed;
+    private float jumpInput;
+    [SerializeField] private float jumpForce;
+
     private int maxSpeed;
-    [SerializeField] private Vector3 rotateForce;
-    [SerializeField] private float rotateSpeed;
+    [SerializeField] private float dashTimer;
+    [SerializeField] private float dashCoolDown;
+    [SerializeField] private bool isGrounded = false;
+
     enum PlayerNbr {Player_1, Player_2, Player_3, Player_4};
+
     [SerializeField] private PlayerNbr myNumber;
-    [SerializeField] private float sprintTimer;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        collider = GetComponent<CapsuleCollider>();
+    }
     // Start is called before the first frame update
     void Start()
     {
         maxSpeed = 10;
         moveSpeed = 100;
-        rotateSpeed = 3;
-        rb = GetComponent<Rigidbody>();
+        rotateSpeed = 1;
         //cam = GetComponent<Camera>();
     }
     void Update()
     {
         if(myNumber == PlayerNbr.Player_1)
         {
-            rotateForce = new Vector3(0,Input.GetAxis("Player1H"),0);
-            moveForce = Input.GetAxis("Player1V");
+            rotateInput = new Vector3(0,Input.GetAxis("Player1H"),0);
+            moveInput = Input.GetAxis("Player1V");
+            jumpInput = Input.GetAxis("JumpP1");
+        }
+        else if(myNumber == PlayerNbr.Player_2)
+        {
+            rotateInput = new Vector3(0, Input.GetAxis("Player2H"), 0);
+            moveInput = Input.GetAxis("Player2V");
+            jumpInput = Input.GetAxis("JumpP2");
+        }
+        if (isGrounded)
+        {
+
+            rb.drag = baseDrag;
         }
         else
         {
-            rotateForce = new Vector3(0, Input.GetAxis("Player2H"), 0);
-            moveForce = Input.GetAxis("Player2V");
+            rb.drag = 0;
         }
+        if (Physics.Raycast(transform.position, Vector3.down, collider.height / 2 + 0.01f, LayerMask.GetMask("Ground")))
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+        transform.Rotate(rotateInput * rotateSpeed ,Space.Self);
         Mathf.Clamp(rb.velocity.magnitude, 0, maxSpeed);
     }
     void FixedUpdate()
     {
         velocity = rb.velocity;
-        rb.AddForce(transform.forward * moveForce * moveSpeed, ForceMode.Force);
-        transform.Rotate(rotateForce * rotateSpeed ,Space.Self);
+        rb.AddForce(transform.forward * moveInput * moveSpeed, ForceMode.Force);
+        Jump();
+    }
+
+    void Jump()
+    {
+        if (isGrounded)
+        {
+            rb.AddForce(transform.up * jumpForce * jumpInput, ForceMode.Impulse);
+        }
     }
 }

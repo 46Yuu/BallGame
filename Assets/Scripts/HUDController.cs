@@ -6,20 +6,31 @@ using UnityEngine.UI;
 
 public class HUDController : MonoBehaviour
 {
-    public TextMeshPro scoreP1;
-    public TextMeshPro scoreP2;
-    public TextMeshPro textGoal;
+    private static HUDController instance;
+    public static HUDController GetInstance()
+    {
+        if (instance)
+        {
+            return instance;
+        }
+        else
+        {
+            return instance = FindObjectOfType<HUDController>();
+        }
+    }
+
+    public GameObject scoreP1;
+    public GameObject scoreP2;
+    public GameObject textGoal;
     // Start is called before the first frame update
     void Awake()
     {
-        scoreP1 = GameObject.Find("ScoreTeam1").GetComponent<TextMeshPro>();
-        scoreP2 = GameObject.Find("ScoreTeam2").GetComponent<TextMeshPro>();
-        textGoal = GameObject.Find("TextGoal").GetComponent<TextMeshPro>();
+        scoreP1 = GameObject.Find("ScoreTeam1");
+        scoreP2 = GameObject.Find("ScoreTeam2");
+        textGoal = GameObject.Find("TextGoal");
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        textGoal.gameObject.SetActive(false);
     }
 }
