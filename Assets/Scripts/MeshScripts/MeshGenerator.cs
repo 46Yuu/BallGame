@@ -12,16 +12,16 @@ public class MeshGenerator : MonoBehaviour
     int[] triangles;
     Color[] colors;
 
-    public List<GameObject> cageList;
+    [SerializeField] private List<GameObject> cageList;
 
     public int xSize;
     public int zSize;
 
     public int initialSeed;
-    public float intSeeded;
+    private float intSeeded;
 
-    private float minTerrainHeight;
-    private float maxTerrainHeight;
+    public float minTerrainHeight;
+    public float maxTerrainHeight;
     public Gradient gradient;
     // Start is called before the first frame update
     void Awake()

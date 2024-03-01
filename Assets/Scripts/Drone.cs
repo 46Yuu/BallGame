@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Schema;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Drone : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float chaseSpeed;
-    List<Vector3> path = new List<Vector3>();
+    List<Vector3> path;
     int currentPoint = 0;
     int nextPoint = 1;
 
@@ -14,16 +16,13 @@ public class Drone : MonoBehaviour
     private bool isBallGrabbed = false;
     private bool isChasing = false;
 
-    private GameObject ball;
+    [SerializeField] private GameObject ball;
 
     // Start is called before the first frame update
     void Start()
     {
-        ball = GameObject.Find("Ball");
-        foreach(GameObject go in GameObject.FindGameObjectsWithTag("DroneRoute"))
-        {
-            path.Add(go.transform.position);
-        }
+        Random.InitState(FindAnyObjectByType<MeshGenerator>().initialSeed);
+        SetupPath();
         transform.position = path[0];
         StartChaseTimer();
     }
@@ -76,18 +75,31 @@ public class Drone : MonoBehaviour
         StartCoroutine(Chase());
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.CompareTag("Ball") && isChasing && !isBallGrabbed)
+        if (collision.gameObject.CompareTag("Ball") && isChasing && !isBallGrabbed)
         {
             isBallGrabbed = true;
             isChasing = false;
-            other.transform.parent = transform;
-            other.transform.position = transform.position;
-            other.transform.position += new Vector3(0, 5, 0);
-            other.GetComponent<Rigidbody>().isKinematic = true;
-            other.GetComponent<Rigidbody>().useGravity = false;
-            //other.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            collision.transform.parent = transform;
+            collision.transform.position = transform.position;
+            collision.transform.position += new Vector3(0, 5, 0);
+            collision.rigidbody.isKinematic = true;
+            collision.rigidbody.useGravity = false;
         }
+    }
+
+    private void SetupPath()
+    {
+        path = new List<Vector3>();
+        int numCheckPoints = Random.Range(4, 6);
+        int xMinField = -(FindAnyObjectByType<MeshGenerator>().xSize / 2);
+        int xMaxField = FindAnyObjectByType<MeshGenerator>().xSize / 2;
+        int zMinField = -(FindAnyObjectByType<MeshGenerator>().zSize / 2);
+        int zMaxField = FindAnyObjectByType<MeshGenerator>().zSize / 2; 
+        for(int i = 0; i < numCheckPoints; i++)
+        {
+            path.Add(new Vector3(Random.Range(xMinField+5,xMaxField-5), FindAnyObjectByType<MeshGenerator>().maxTerrainHeight + 3, Random.Range(zMinField+15,zMaxField-15)));
+        }    
     }
 }
