@@ -119,7 +119,7 @@ Rigidbody:
   m_GameObject: {fileID: 5286317343375610303}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 2
+  m_Drag: 5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -136,7 +136,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &2683808579969272381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,13 +150,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  playerName: 
+  collider: {fileID: 0}
+  playerName: Flo
   velocity: {x: 0, y: 0, z: 0}
   moveSpeed: 0
-  rotateForce: {x: 0, y: 0, z: 0}
-  rotateSpeed: 0
+  dashTimer: 0
+  dashCoolDown: 0
   myNumber: 0
-  sprintTimer: 0
 --- !u!1 &6226507267512877858
 GameObject:
   m_ObjectHideFlags: 0
