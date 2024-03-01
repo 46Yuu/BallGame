@@ -321,7 +321,7 @@ GameObject:
   m_Component:
   - component: {fileID: 332437427}
   m_Layer: 0
-  m_Name: Checkpoint_2
+  m_Name: Checkpoint_1
   m_TagString: DroneRoute
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -602,6 +602,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1756035142}
   m_LocalEulerAnglesHint: {x: -90, y: 180, z: 0}
+--- !u!1 &682371755 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6839765603296126364, guid: 966c8c7781c0c43449b9d17f32b2cb64, type: 3}
+  m_PrefabInstance: {fileID: 1479556537}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &768639561
 GameObject:
   m_ObjectHideFlags: 0
@@ -643,7 +648,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1004079101}
   m_Layer: 0
-  m_Name: Checkpoint_4
+  m_Name: Checkpoint_2
   m_TagString: DroneRoute
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -668,6 +673,11 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: 5590232518600851003, guid: be44713831581e14590cd73a8b3f24d2, type: 3}
   m_PrefabInstance: {fileID: 1875907996}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1252850017 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6839765603296126364, guid: 966c8c7781c0c43449b9d17f32b2cb64, type: 3}
+  m_PrefabInstance: {fileID: 1374198295}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1303130496
 GameObject:
@@ -1025,6 +1035,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4364640698572869558, guid: 966c8c7781c0c43449b9d17f32b2cb64, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6839765603296126364, guid: 966c8c7781c0c43449b9d17f32b2cb64, type: 3}
       propertyPath: m_Name
       value: Cage
@@ -1288,7 +1302,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1799544981}
   m_Layer: 0
-  m_Name: Checkpoint_1
+  m_Name: Checkpoint_4
   m_TagString: DroneRoute
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1485,7 +1499,9 @@ MonoBehaviour:
   - {fileID: 1443383910}
   - {fileID: 2143929368}
   - {fileID: 1756035138}
-  cageList: []
+  cageList:
+  - {fileID: 682371755}
+  - {fileID: 1252850017}
   xSize: 100
   zSize: 100
   initialSeed: 388
@@ -1679,6 +1695,22 @@ PrefabInstance:
     - target: {fileID: 3536095459903663222, guid: be44713831581e14590cd73a8b3f24d2, type: 3}
       propertyPath: m_Name
       value: Drone_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3902481041442714936, guid: be44713831581e14590cd73a8b3f24d2, type: 3}
+      propertyPath: timer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525100633275224256, guid: be44713831581e14590cd73a8b3f24d2, type: 3}
+      propertyPath: m_Height
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525100633275224256, guid: be44713831581e14590cd73a8b3f24d2, type: 3}
+      propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525100633275224256, guid: be44713831581e14590cd73a8b3f24d2, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5590232518600851003, guid: be44713831581e14590cd73a8b3f24d2, type: 3}
       propertyPath: m_LocalPosition.x

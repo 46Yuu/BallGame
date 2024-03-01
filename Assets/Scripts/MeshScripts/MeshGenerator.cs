@@ -36,7 +36,7 @@ public class MeshGenerator : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
         GetComponent<MeshCollider>().sharedMesh = mesh;
         SetupWalls();
-        SetupCages();
+        SetupCage();
     }
 
 
@@ -121,8 +121,9 @@ public class MeshGenerator : MonoBehaviour
         walls[4].transform.localScale = new UnityEngine.Vector3(xSize / 10, 1, zSize / 10);
     }
 
-    void SetupCages()
+    void SetupCage()
     {
-        cageList[0].transform.position = new UnityEngine.Vector3(0, 0, -(zSize) / 2);
+        cageList[0].transform.position = new UnityEngine.Vector3(0, 0, (zSize / 2)-1);
+        cageList[1].transform.position = new UnityEngine.Vector3(0, 0, -(zSize / 2)+1);
     }
 }

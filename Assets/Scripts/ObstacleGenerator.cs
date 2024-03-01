@@ -22,7 +22,7 @@ public class ObstacleGenerator : MonoBehaviour
     {
         meshGenerator = FindAnyObjectByType<MeshGenerator>();
         Random.InitState(meshGenerator.initialSeed);
-        GetComponent<Transform>().position = new Vector3(-(meshGenerator.xSize/2),0,-(meshGenerator.zSize/2));
+        GetComponent<Transform>().position = new Vector3(-(meshGenerator.xSize/2),0,-(meshGenerator.zSize/2)+15);
         generateObstacles();
         generateCannon();
     }
@@ -30,7 +30,7 @@ public class ObstacleGenerator : MonoBehaviour
     void generateObstacles()
     {
         int numObstacles = Random.Range(2 , meshGenerator.xSize / 10);
-        Vector2 sample_zone = new Vector2(meshGenerator.xSize, meshGenerator.zSize);
+        Vector2 sample_zone = new Vector2(meshGenerator.xSize, meshGenerator.zSize-30);
         List<Vector2> tempSamples = GeneratePoint(20, sample_zone, numObstacles);
         if (tempSamples != null)
         {
@@ -55,9 +55,9 @@ public class ObstacleGenerator : MonoBehaviour
             int offset_y = Mathf.Max(0, y - 2);
             int out_y = Mathf.Min(y + 2, grid.GetLength(1) - 1);
 
-            for (int i = offset_x; i < out_x; i++)
+            for (int i = offset_x; i <= out_x; i++)
             {
-                for (int j = offset_y; j < out_y; j++)
+                for (int j = offset_y; j <= out_y; j++)
                 {
                     int s_index = grid[i, j] - 1;
                     if(s_index != -1)
@@ -74,11 +74,10 @@ public class ObstacleGenerator : MonoBehaviour
         }
         return false;
     } 
-    public static List<Vector2> GeneratePoint(float radius, Vector2 grid_size, int k  = 30)
+    public static List<Vector2> GeneratePoint(float radius, Vector2 grid_size, int k  = 15)
     {
         float cell_size = radius / Mathf.Sqrt(2);
 
-        //to get the columns we gonna divide the width/ cell_size and rows ....
         int[,] grid = new int[Mathf.CeilToInt(grid_size.x / cell_size), Mathf.CeilToInt(grid_size.y / cell_size)];
         
         List<Vector2> samples = new List<Vector2>();
@@ -87,13 +86,12 @@ public class ObstacleGenerator : MonoBehaviour
         spawn_samples.Add(grid_size / 2);
         while (spawn_samples.Count > 0)
         {
-            int index = spawn_samples.Count - 1;
+            int index = Random.Range(0,spawn_samples.Count);
             Vector2 current_spawn_sample = spawn_samples[index];
             bool rejected_sample = true;
             for (int i = 0; i < k; i++)
             {
                 float angle_offset = Random.value * Mathf.PI * 2;
-                //rotate a vector at a given angle
                 float x = Mathf.Sin(angle_offset);
                 float y = Mathf.Cos(angle_offset);
                 Vector2 offset_direction = new Vector2(x, y);
