@@ -38,7 +38,15 @@ public class ObstacleGenerator : MonoBehaviour
             {
                 int scaleRock = Random.Range(3, 5);
                 int indexObstacle = Random.Range(0, listObstacles.Count);
-                GameObject obstacle = Instantiate(listObstacles[indexObstacle], new Vector3(sample.x, Random.Range(meshGenerator.minTerrainHeight,meshGenerator.maxTerrainHeight), sample.y)+transform.position, Quaternion.identity);
+
+                Vector3 pos = new Vector3(sample.x, Random.Range(meshGenerator.minTerrainHeight,meshGenerator.maxTerrainHeight), sample.y);
+                RaycastHit hit;
+                if (Physics.Raycast(pos, Vector3.down, out hit, LayerMask.GetMask("Ground")))
+                {
+                    pos.y = hit.point.y;
+                }
+
+                GameObject obstacle = Instantiate(listObstacles[indexObstacle], pos+transform.position, Quaternion.identity);
                 obstacle.transform.localScale = new Vector3(scaleRock, scaleRock, scaleRock);
             }
         }
