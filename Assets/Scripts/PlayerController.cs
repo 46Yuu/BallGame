@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
         }
         transform.Rotate(rotateInput * rotateSpeed ,Space.Self);
-        Mathf.Clamp(rb.velocity.magnitude, 0, maxSpeed);
+        Vector3.ClampMagnitude(rb.velocity, maxSpeed);
     }
     void FixedUpdate()
     {
