@@ -2007,6 +2007,18 @@ PrefabInstance:
       value: Drone
       objectReference: {fileID: 0}
     - target: {fileID: 688416738327293394, guid: b77372af2632bf74f8b6e226158f7893, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 688416738327293394, guid: b77372af2632bf74f8b6e226158f7893, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 688416738327293394, guid: b77372af2632bf74f8b6e226158f7893, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 688416738327293394, guid: b77372af2632bf74f8b6e226158f7893, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.019337926
       objectReference: {fileID: 0}
@@ -2044,6 +2056,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 688416738327293394, guid: b77372af2632bf74f8b6e226158f7893, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 688416738327293394, guid: b77372af2632bf74f8b6e226158f7893, type: 3}
+      propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1446086093161878473, guid: b77372af2632bf74f8b6e226158f7893, type: 3}
