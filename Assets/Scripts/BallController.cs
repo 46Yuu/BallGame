@@ -15,7 +15,8 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        var particleSystemMain = GetComponent<ParticleSystem>().main;
+        particleSystemMain.duration = rb.velocity.magnitude / 2;
     }
 
     private void OnCollisionEnter(Collision collision)

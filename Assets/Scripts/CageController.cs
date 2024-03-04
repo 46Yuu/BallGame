@@ -28,8 +28,8 @@ public class CageController : MonoBehaviour
 
     private IEnumerator WaitRestart()
     {
-        Time.timeScale = 0.5f;
-        yield return new WaitForSeconds(3);
+        Time.timeScale = 0.6f;
+        yield return new WaitForSeconds(2);
         Time.timeScale = 1;
         hudController.textGoal.gameObject.SetActive(false);
         yield return new WaitForSeconds(1);
