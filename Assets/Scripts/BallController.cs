@@ -22,7 +22,7 @@ public class BallController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            rb.AddForce((collision.gameObject.transform.position - transform.position).normalized * collision.gameObject.GetComponent<Rigidbody>().velocity.magnitude, ForceMode.Impulse);
+            rb.AddForce((transform.position - collision.gameObject.transform.position).normalized * collision.gameObject.GetComponent<Rigidbody>().velocity.magnitude, ForceMode.Impulse);
             latesPlayerHit = collision.gameObject;
         }
     }

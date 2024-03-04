@@ -36,10 +36,10 @@ public class ObstacleGenerator : MonoBehaviour
         {
             foreach(Vector2 sample in tempSamples)
             {
-                int scaleObstacle = Random.Range(4, 7);
+                int scaleRock = Random.Range(3, 5);
                 int indexObstacle = Random.Range(0, listObstacles.Count);
-                GameObject obstacle = Instantiate(listObstacles[indexObstacle], new Vector3(sample.x, Random.Range(0,10), sample.y)+transform.position, Quaternion.identity);
-                obstacle.transform.localScale = new Vector3(scaleObstacle, scaleObstacle, scaleObstacle);
+                GameObject obstacle = Instantiate(listObstacles[indexObstacle], new Vector3(sample.x, Random.Range(meshGenerator.minTerrainHeight,meshGenerator.maxTerrainHeight), sample.y)+transform.position, Quaternion.identity);
+                obstacle.transform.localScale = new Vector3(scaleRock, scaleRock, scaleRock);
             }
         }
     }

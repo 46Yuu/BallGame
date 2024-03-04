@@ -9,6 +9,7 @@ public class CannonScript : MonoBehaviour
 
     void Awake()
     {
+        Random.InitState(FindAnyObjectByType<MeshGenerator>().initialSeed);
         SpawnPoint = transform.Find("BulletSpawn");
     }
 
@@ -22,7 +23,7 @@ public class CannonScript : MonoBehaviour
         bool running = true;
         while(running)
         {
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(Random.Range(5,10));
             ShootBall();
         }
     }

@@ -52,6 +52,7 @@ public class Drone : MonoBehaviour
         {
             timeSpeed = chaseSpeed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, ball.transform.position, timeSpeed);
+            transform.rotation = Quaternion.LookRotation(ball.transform.position - transform.position);
         }
         else
         {
@@ -60,6 +61,7 @@ public class Drone : MonoBehaviour
                 timeSpeed = chaseSpeed * Time.deltaTime;
             } 
             transform.position = Vector3.MoveTowards(transform.position, path[nextPoint], timeSpeed);
+            transform.rotation = Quaternion.LookRotation(path[nextPoint] - transform.position);
         }
             
     }
@@ -72,6 +74,7 @@ public class Drone : MonoBehaviour
 
     public void StartChaseTimer()
     {
+        timer = Random.Range(30, 60);
         StartCoroutine(Chase());
     }
 

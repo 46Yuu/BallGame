@@ -37,6 +37,7 @@ public class MeshGenerator : MonoBehaviour
         GetComponent<MeshCollider>().sharedMesh = mesh;
         SetupWalls();
         SetupCage();
+        SetupStartPos();
     }
 
 
@@ -99,6 +100,7 @@ public class MeshGenerator : MonoBehaviour
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.colors = colors;
+        gameObject.layer = 8;
 
         mesh.RecalculateNormals();
     }
@@ -126,4 +128,12 @@ public class MeshGenerator : MonoBehaviour
         cageList[0].transform.position = new UnityEngine.Vector3(0, 0, (zSize / 2)-1);
         cageList[1].transform.position = new UnityEngine.Vector3(0, 0, -(zSize / 2)+1);
     }
+
+    void SetupStartPos()
+    {
+        GameObject.Find("startPosP1").transform.position = new UnityEngine.Vector3(0, maxTerrainHeight + 1, -(zSize / 2) + 20);
+        GameObject.Find("startPosP2").transform.position = new UnityEngine.Vector3(0, maxTerrainHeight + 1, (zSize / 2) - 20); 
+        GameObject.Find("startPosBall").transform.position = new UnityEngine.Vector3(0, maxTerrainHeight+10, 0);
+        
+    }   
 }

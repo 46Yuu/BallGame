@@ -40,8 +40,8 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         maxSpeed = 10;
-        moveSpeed = 100;
-        rotateSpeed = 1;
+        moveSpeed = 50;
+        rotateSpeed = 0.75f;
         //cam = GetComponent<Camera>();
     }
     void Update()
