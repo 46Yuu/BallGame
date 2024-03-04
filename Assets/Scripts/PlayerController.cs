@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        maxSpeed = 10;
+        maxSpeed = 25;
         moveSpeed = 50;
         rotateSpeed = 0.75f;
         //cam = GetComponent<Camera>();
@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
         }
         transform.Rotate(rotateInput * rotateSpeed ,Space.Self);
-        Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
     }
     void FixedUpdate()
     {

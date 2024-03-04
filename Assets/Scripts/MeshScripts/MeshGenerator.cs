@@ -107,19 +107,19 @@ public class MeshGenerator : MonoBehaviour
 
     void SetupWalls()
     {
-        walls[0].transform.position = new UnityEngine.Vector3(0,0,-(zSize)/2);
+        walls[0].transform.position = new UnityEngine.Vector3(0,50,-(zSize)/2);
         walls[0].transform.localScale = new UnityEngine.Vector3(xSize / 10,1,10);
 
-        walls[1].transform.position = new UnityEngine.Vector3(0, 0, zSize/2);
+        walls[1].transform.position = new UnityEngine.Vector3(0, 50, zSize/2);
         walls[1].transform.localScale = new UnityEngine.Vector3(xSize / 10, 1, 10);
 
-        walls[2].transform.position = new UnityEngine.Vector3(-(xSize)/2, 0, 0);
+        walls[2].transform.position = new UnityEngine.Vector3(-(xSize)/2, 50, 0);
         walls[2].transform.localScale = new UnityEngine.Vector3(zSize / 10, 1, 10);
 
-        walls[3].transform.position = new UnityEngine.Vector3(xSize/2, 0, 0);
+        walls[3].transform.position = new UnityEngine.Vector3(xSize/2, 50, 0);
         walls[3].transform.localScale = new UnityEngine.Vector3(zSize / 10, 1, 10);
 
-        walls[4].transform.position = new UnityEngine.Vector3(0, 50, 0);
+        walls[4].transform.position = new UnityEngine.Vector3(0, 100, 0);
         walls[4].transform.localScale = new UnityEngine.Vector3(xSize / 10, 1, zSize / 10);
     }
 
