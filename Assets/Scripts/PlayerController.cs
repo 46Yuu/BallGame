@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
-    [SerializeField] private CapsuleCollider collider;
+    [SerializeField] private BoxCollider collider;
 
 
     public string playerName;
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        collider = GetComponent<CapsuleCollider>();
+        collider = GetComponent<BoxCollider>();
     }
     // Start is called before the first frame update
     void Start()
@@ -67,7 +68,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.drag = 0;
         }
-        if (Physics.Raycast(transform.position, Vector3.down, collider.height / 2 + 0.01f, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(transform.position, Vector3.down, 0.1f, LayerMask.GetMask("Ground")))
         {
             isGrounded = true;
         }
