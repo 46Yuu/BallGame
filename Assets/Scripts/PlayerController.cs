@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private BoxCollider collider;
     [SerializeField] private GameObject arrow;
     [SerializeField] private GameObject ball;
+    [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private InputActions _playerActions;
+    [SerializeField] private InputActionAsset _inputActions;
+    [SerializeField] private int _playerIndex;
 
 
     public string playerName;
@@ -46,6 +51,10 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         collider = GetComponent<BoxCollider>();
         arrow = transform.Find("Arrow").gameObject;
+        _playerInput = GetComponent<PlayerInput>();
+        _playerActions = new InputActions();
+        _inputActions = _playerInput.actions;
+        _playerIndex = _playerInput.playerIndex;
     }
     // Start is called before the first frame update
     void Start()
