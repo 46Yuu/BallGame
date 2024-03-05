@@ -48,6 +48,8 @@ public class ObstacleGenerator : MonoBehaviour
 
                 GameObject obstacle = Instantiate(listObstacles[indexObstacle], pos+transform.position, Quaternion.identity);
                 obstacle.transform.localScale = new Vector3(scaleRock, scaleRock, scaleRock);
+                obstacle.layer = 8;
+
             }
         }
     }

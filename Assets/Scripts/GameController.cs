@@ -36,6 +36,7 @@ public class GameController : MonoBehaviour
     private void Awake()
     {
         Ball = GameObject.Find("Ball");
+        Ball.layer = 8;
         Player_1 = GameObject.Find("Player_1");
         Player_2 = GameObject.Find("Player_2");
         startPosBall = GameObject.Find("startPosBall");

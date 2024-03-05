@@ -24,6 +24,7 @@ public class Drone : MonoBehaviour
         Random.InitState(FindAnyObjectByType<MeshGenerator>().initialSeed);
         SetupPath();
         transform.position = path[0];
+        gameObject.layer = 8;
         StartChaseTimer();
     }
 
