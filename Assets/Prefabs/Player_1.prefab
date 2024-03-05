@@ -118,8 +118,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5286317343375610303}
   serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 5
+  m_Mass: 11
+  m_Drag: 3
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -154,8 +154,10 @@ MonoBehaviour:
   playerName: Flo
   velocity: {x: 0, y: 0, z: 0}
   moveSpeed: 0
+  jumpForce: 10
   dashTimer: 0
   dashCoolDown: 0
+  isGrounded: 0
   myNumber: 0
 --- !u!1 &6226507267512877858
 GameObject:
@@ -183,13 +185,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6226507267512877858}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.639, z: -0.167}
+  m_LocalRotation: {x: 0.083941065, y: -0, z: -0, w: 0.99647075}
+  m_LocalPosition: {x: 0, y: 3.797, z: -7.406}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7514505473562328558}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 9.63, y: 0, z: 0}
 --- !u!20 &2716358322392944967
 Camera:
   m_ObjectHideFlags: 0
