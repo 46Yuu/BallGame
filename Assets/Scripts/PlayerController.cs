@@ -2,11 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
     [SerializeField] private CapsuleCollider collider;
+    [SerializeField] private PlayerInput _playerInput;
+    [SerializeField] private InputActions _playerActions;
+    [SerializeField] private InputActionAsset _inputActions;
+    [SerializeField] private int _playerIndex;
 
 
     public string playerName;
@@ -41,6 +46,10 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
+        _playerInput = GetComponent<PlayerInput>();
+        _playerActions = new InputActions();
+        _inputActions = _playerInput.actions;
+        _playerIndex = _playerInput.playerIndex;
     }
     // Start is called before the first frame update
     void Start()
