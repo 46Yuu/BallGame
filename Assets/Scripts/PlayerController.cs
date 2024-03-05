@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,6 +9,8 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
     [SerializeField] private BoxCollider collider;
+    [SerializeField] private GameObject arrow;
+    [SerializeField] private GameObject ball;
 
 
     public string playerName;
@@ -42,10 +45,12 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         collider = GetComponent<BoxCollider>();
+        arrow = transform.Find("Arrow").gameObject;
     }
     // Start is called before the first frame update
     void Start()
     {
+        ball = GameController.GetInstance().Ball;
         maxSpeed = 25;
         moveSpeed = 1200;
         jumpForce = 100;
@@ -86,7 +91,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.drag = 0;
         }
-        if (Physics.Raycast(transform.position, Vector3.down, 0.1f, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(transform.position, Vector3.down, 0.5f, LayerMask.GetMask("Ground")))
         {
             isGrounded = true;
             isAirBorn = false;
@@ -102,7 +107,7 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
-
+        SetArrowDirection();
     }
     void FixedUpdate()
     {
@@ -150,5 +155,10 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    private void SetArrowDirection()
+    {
+        arrow.transform.rotation = Quaternion.LookRotation(ball.transform.position - transform.position, Vector3.up) * Quaternion.Euler(90, 0, 0);
     }
 }

@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour
     public int scoreToWin = 10;
 
 
-    private GameObject Ball;
+    public GameObject Ball;
     private GameObject startPosBall;
 
     private GameObject Player_1;
@@ -33,7 +33,7 @@ public class GameController : MonoBehaviour
     private GameObject startPosP2;
     public int scoreP2 = 0;
 
-    private void Start()
+    private void Awake()
     {
         Ball = GameObject.Find("Ball");
         Player_1 = GameObject.Find("Player_1");
@@ -50,11 +50,11 @@ public class GameController : MonoBehaviour
         Ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
         Player_1.transform.position = startPosP1.transform.position;
-        Player_1.transform.eulerAngles = Vector3.zero;
+        Player_1.transform.eulerAngles = new Vector3(0, 180, 0);
         Player_1.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
         Player_2.transform.position = startPosP2.transform.position;
-        Player_2.transform.eulerAngles = new Vector3(0, 180, 0);
+        Player_2.transform.eulerAngles = Vector3.zero;
         Player_2.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
@@ -67,5 +67,10 @@ public class GameController : MonoBehaviour
             scoreP2 = 0;
         }
 
+    }
+
+    public GameObject GetBall()
+    {
+        return Ball;
     }
 }
