@@ -151,9 +151,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   collider: {fileID: 0}
+  arrow: {fileID: 0}
+  ball: {fileID: 0}
+  cam: {fileID: 0}
+  _playerInput: {fileID: 0}
+  _inputActions: {fileID: 0}
+  _actionMap:
+    m_Name: Action Map
+    m_Id: 329c30ed-fa54-4e34-848f-9119c48cc54c
+    m_Asset: {fileID: 0}
+    m_Actions: []
+    m_Bindings: []
+  _playerIndex: 0
+  anim: {fileID: 0}
   playerName: Flo
   velocity: {x: 0, y: 0, z: 0}
+  isJumping: 0
+  isFalling: 0
+  canDoubleJump: 0
   moveSpeed: 0
+  fallSpeed: 0
   jumpForce: 10
   dashTimer: 0
   dashCoolDown: 0

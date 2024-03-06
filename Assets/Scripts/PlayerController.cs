@@ -1,13 +1,21 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Player Components")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private BoxCollider collider;
     [SerializeField] private GameObject arrow;
     [SerializeField] private GameObject ball;
+    [SerializeField] private Camera cam;
+    [SerializeField] private GameObject pivotX;
+    [SerializeField] private GameObject pivotY;
+    [SerializeField] private GameObject mainBody;
+
+    [Header("Player Input")]
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private PlayerActions _playerActions;
     [SerializeField] private InputActionAsset _inputActions;
@@ -36,9 +44,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float fallSpeed;
-
-    private float runSpeed;
     private Vector3 rotateInput;
+    private float runSpeed;
     private float rotateSpeed;
     private float jumpInput;
     [SerializeField] private float jumpForce;
@@ -69,9 +76,13 @@ public class PlayerController : MonoBehaviour
         _actionMap = _inputActions.FindActionMap("gameplay");
         _playerIndex = _playerInput.playerIndex;
         anim = GetComponentInChildren<Animator>();
+        cam = GetComponentInChildren<Camera>();
+        pivotX = transform.Find("PivotX").gameObject;
+        pivotY = pivotX.transform.Find("PivotY").gameObject;
+        mainBody = transform.Find("Mesh Object").gameObject;
     }
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         isWalkingHash = Animator.StringToHash("IsWalking");
         isRunningHash = Animator.StringToHash("IsRunning");
@@ -85,8 +96,37 @@ public class PlayerController : MonoBehaviour
         jumpForce = 100;
         rotateSpeed = 0.75f;
         fallSpeed = 50.0f;
-        runSpeed = moveSpeed*1.8f;
-        //cam = GetComponent<Camera>();
+        runSpeed = moveSpeed * 1.8f;
+       /* if (GameController.GetInstance().numberOfPlayers == 2)
+        {
+            switch (myNumber)
+            {
+                case PlayerNbr.Player_1:
+                    cam.rect = new Rect(0, 0, 0.5f, 1);
+                    break;
+                case PlayerNbr.Player_2:
+                    cam.rect = new Rect(0.5f, 0, 0.5f, 1);
+                    break;
+            }
+        }
+        else
+        {
+            switch (myNumber)
+            {
+                case PlayerNbr.Player_1:
+                    cam.rect = new Rect(0, 0, 0.5f, 0.5f);
+                    break;
+                case PlayerNbr.Player_2:
+                    cam.rect = new Rect(0.5f, 0, 0.5f, 0.5f);
+                    break;
+                case PlayerNbr.Player_3:
+                    cam.rect = new Rect(0, 0.5f, 0.5f, 0.5f);
+                    break;
+                case PlayerNbr.Player_4:
+                    cam.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
+                    break;
+            }
+        }*/
     }
     void Update()
     {
@@ -101,15 +141,17 @@ public class PlayerController : MonoBehaviour
             isFalling = true;
         }
         moveInput = _actionMap.FindAction("Move").ReadValue<Vector2>();
-        if(moveInput != Vector2.zero)
+        if (moveInput != Vector2.zero)
         {
             anim.SetBool(isWalkingHash, true);
+            float angle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
+            mainBody.transform.rotation = Quaternion.Euler(-90, angle, 0) ;
         }
         else
         {
             anim.SetBool(isWalkingHash, false);
         }
-        //rotateInput = new Vector3(0, Input.GetAxis("Player1H"), 0);
+        rotateInput = _actionMap.FindAction("Camera").ReadValue<Vector2>();
         if (isGrounded)
         {
             isJumping = false;
@@ -123,7 +165,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Physics.Raycast(transform.position, Vector3.down, 0.4f, LayerMask.GetMask("Ground")))
         {
-            if(anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
             {
                 anim.SetBool(isLandingHash, true);
             }
@@ -135,9 +177,10 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
             isAirBorn = true;
         }
-        transform.Rotate(rotateInput * rotateSpeed, Space.Self);
-        //rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-        if(_actionMap.FindAction("Jump").WasPerformedThisFrame())
+        pivotY.transform.Rotate(new Vector3(-rotateInput.y,0,0) * rotateSpeed);
+        pivotX.transform.Rotate(new Vector3(0, rotateInput.x, 0) * rotateSpeed);
+       
+        if (_actionMap.FindAction("Jump").WasPerformedThisFrame())
         {
             Jump();
         }
@@ -146,11 +189,12 @@ public class PlayerController : MonoBehaviour
             isRunning = true;
             anim.SetBool(isRunningHash, true);
         }
-        else{
+        else
+        {
             isRunning = false;
             anim.SetBool(isRunningHash, false);
         }
-        if(Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             anim.SetTrigger(Emote1Hash);
         }
@@ -158,7 +202,8 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetTrigger(Emote2Hash);
         }
-        SetArrowDirection();
+        if(ball != null)
+            SetArrowDirection();
     }
     void FixedUpdate()
     {
@@ -170,11 +215,11 @@ public class PlayerController : MonoBehaviour
         }
         if (isGrounded)
         {
-            rb.AddForce(new Vector3(-moveInput.x * moveSpeed,0,-moveInput.y * moveSpeed), ForceMode.Force);
+            rb.AddForce(pivotX.transform.forward * moveInput.y * moveSpeed + pivotX.transform.right * moveInput.x * moveSpeed, ForceMode.Force);
         }
         else if (isAirBorn)
         {
-            rb.AddForce(new Vector3(-moveInput.x * moveSpeed,0,-moveInput.y * moveSpeed) * 0.1f, ForceMode.Force);
+            rb.AddForce((pivotX.transform.forward * moveInput.y * moveSpeed + pivotX.transform.right * moveInput.x * moveSpeed) * 0.1f, ForceMode.Force);
         }
         if (isFalling)
         {

@@ -1,5 +1,69 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &816674702928022169
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2635120667171424930}
+  m_Layer: 6
+  m_Name: PivotY
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2635120667171424930
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816674702928022169}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.033463933, y: -0.000000029802319, z: 0.000000012107192, w: 0.99943995}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5927516985639241380}
+  m_Father: {fileID: 1983154144643803706}
+  m_LocalEulerAnglesHint: {x: -3.835, y: 0, z: 0}
+--- !u!1 &1949228808260444865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1983154144643803706}
+  m_Layer: 6
+  m_Name: PivotX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1983154144643803706
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949228808260444865}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.9490876, z: -0, w: -0.31501216}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2635120667171424930}
+  m_Father: {fileID: 2315157909641692060}
+  m_LocalEulerAnglesHint: {x: 0, y: -216.723, z: 0}
 --- !u!1 &2013599224177034037
 GameObject:
   m_ObjectHideFlags: 0
@@ -27,11 +91,11 @@ Transform:
   m_GameObject: {fileID: 2013599224177034037}
   serializedVersion: 2
   m_LocalRotation: {x: 0.084318936, y: -0, z: -0, w: 0.99643886}
-  m_LocalPosition: {x: 0, y: 8.07, z: -10.16}
+  m_LocalPosition: {x: 0, y: 8.070002, z: -10.16}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2315157909641692060}
+  m_Father: {fileID: 2635120667171424930}
   m_LocalEulerAnglesHint: {x: 9.674, y: 0, z: 0}
 --- !u!20 &2276074219008266013
 Camera:
@@ -62,7 +126,7 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 0.5
+    width: 1
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
@@ -392,7 +456,7 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5903297864969995812, guid: 8f5e135a19626f544908fc8f156144b9, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5927516985639241380}
+      addedObject: {fileID: 1983154144643803706}
     - targetCorrespondingSourceObject: {fileID: 5903297864969995812, guid: 8f5e135a19626f544908fc8f156144b9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5912529846027539468}
@@ -439,8 +503,16 @@ MonoBehaviour:
   collider: {fileID: 0}
   arrow: {fileID: 0}
   ball: {fileID: 0}
+  cam: {fileID: 0}
+  pivot: {fileID: 0}
   _playerInput: {fileID: 0}
   _inputActions: {fileID: 0}
+  _actionMap:
+    m_Name: Action Map
+    m_Id: d222121c-335a-4afd-8036-beb331294724
+    m_Asset: {fileID: 0}
+    m_Actions: []
+    m_Bindings: []
   _playerIndex: 0
   anim: {fileID: 0}
   playerName: 
@@ -530,7 +602,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: 
+  m_DefaultActionMap: gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &6842187428277816517 stripped
