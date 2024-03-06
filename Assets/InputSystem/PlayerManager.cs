@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -11,6 +13,9 @@ public class PlayerManager : MonoBehaviour
     private PlayerInputManager _playerInputMan;
     [SerializeField] private int _playersRequired = 2;
     [SerializeField] private PlayerInput _playerOne;
+    public GameObject[] _tmpLife;
+    [SerializeField] private TextMeshProUGUI _playerLeft;
+    [SerializeField] private Color[] _colorPlayer;
 
     #region Singleton
     public static PlayerManager Instance
@@ -25,16 +30,15 @@ public class PlayerManager : MonoBehaviour
         }
     }
     #endregion
-
     private void Awake()
     {
         _playerInputMan = GetComponent<PlayerInputManager>();
+       // UpdatePlayerLeft();
     }
 
-
-    void Update()
+    private void Update()
     {
-/*        if (_playerOne != null)
+      /*  if (_playerOne != null)
             if (_playerOne.actions.FindActionMap("PlayerDanceMoves").FindAction("StartGame").ReadValue<float>() > 0 && !GameManager.Instance.GetGameStart())
             {
                 //GameManager.Instance.SetGameStart(true);
@@ -47,15 +51,14 @@ public class PlayerManager : MonoBehaviour
         if (_playerOne == null)
             _playerOne = playerInput;
         _playersRequired -= 1;
-        //UpdatePlayerLeft();
+        UpdatePlayerLeft();
         //Transform playerParent = playerInput.transform;
-        //SetPlayerColor(playerInput);
-        //GameManager.Instance.SetPlayerStartPos(playerInput.transform, playerInput.playerIndex);
-        //GameManager.Instance.SetCurrentPlayer();
-        //playerInput.GetComponent<PlayerController>()._playerLifeGO = _tmpLife[playerInput.playerIndex];
+ /*       SetPlayerColor(playerInput);
+        GameManager.Instance.SetPlayerStartPos(playerInput.transform, playerInput.playerIndex);
+        GameManager.Instance.SetCurrentPlayer();
+        playerInput.GetComponent<PlayerController>()._playerLifeGO = _tmpLife[playerInput.playerIndex];*/
         //_targetGroup.AddMember(playerInput.transform, 1f, 1f);
     }
-
     private void OnEnable()
     {
         _playerInputMan.onPlayerJoined += AddPlayer;
@@ -65,4 +68,15 @@ public class PlayerManager : MonoBehaviour
     {
         _playerInputMan.onPlayerJoined -= AddPlayer;
     }
+
+    public void UpdatePlayerLeft()
+    {
+        if (_playersRequired > 0 && _playersRequired <= 2)
+            _playerLeft.text = "At least " + _playersRequired + "other players to start the game, up to 4 !";
+        else
+            _playerLeft.text = "Player 1 needs to press START to start the game !";
+    }
+    public void SetPlayerLeft() => _playerLeft.text = "";
+
+    public List<PlayerInput> GetPlayerInput() => _players;
 }

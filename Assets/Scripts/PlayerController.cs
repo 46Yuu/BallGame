@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,8 +9,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject arrow;
     [SerializeField] private GameObject ball;
     [SerializeField] private PlayerInput _playerInput;
-    [SerializeField] private InputActions _playerActions;
+    [SerializeField] private PlayerActions _playerActions;
     [SerializeField] private InputActionAsset _inputActions;
+    [SerializeField] private InputActionMap _actionMap;
     [SerializeField] private int _playerIndex;
 
     [SerializeField] private Animator anim;
@@ -36,7 +33,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isFalling = false;
 
     [SerializeField] bool canDoubleJump = false;
-    private float moveInput;
+    private Vector2 moveInput;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float fallSpeed;
 
@@ -67,8 +64,9 @@ public class PlayerController : MonoBehaviour
         collider = GetComponent<BoxCollider>();
         arrow = transform.Find("Arrow").gameObject;
         _playerInput = GetComponent<PlayerInput>();
-        _playerActions = new InputActions();
+        _playerActions = new PlayerActions();
         _inputActions = _playerInput.actions;
+        _actionMap = _inputActions.FindActionMap("gameplay");
         _playerIndex = _playerInput.playerIndex;
         anim = GetComponentInChildren<Animator>();
     }
@@ -97,30 +95,21 @@ public class PlayerController : MonoBehaviour
             isJumping = true;
             isFalling = false;
         }
-        else if (rb.velocity.y < 0 && isJumping && !isGrounded)
+        else if (rb.velocity.y < 0 && !isGrounded)
         {
             isJumping = false;
             isFalling = true;
         }
-        if (myNumber == PlayerNbr.Player_1)
+        moveInput = _actionMap.FindAction("Move").ReadValue<Vector2>();
+        if(moveInput != Vector2.zero)
         {
-            rotateInput = new Vector3(0, Input.GetAxis("Player1H"), 0);
-            moveInput = Input.GetAxis("Player1V");
-            if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
-            {
-                anim.SetBool(isWalkingHash, true);
-            }
-            else
-            {
-                anim.SetBool(isWalkingHash, false);
-            }
+            anim.SetBool(isWalkingHash, true);
         }
-        else if (myNumber == PlayerNbr.Player_2)
+        else
         {
-            rotateInput = new Vector3(0, Input.GetAxis("Player2H"), 0);
-            moveInput = Input.GetAxis("Player2V");
-            //jumpInput = Input.GetAxis("JumpP2");
+            anim.SetBool(isWalkingHash, false);
         }
+        //rotateInput = new Vector3(0, Input.GetAxis("Player1H"), 0);
         if (isGrounded)
         {
             isJumping = false;
@@ -148,7 +137,7 @@ public class PlayerController : MonoBehaviour
         }
         transform.Rotate(rotateInput * rotateSpeed, Space.Self);
         //rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(_actionMap.FindAction("Jump").WasPerformedThisFrame())
         {
             Jump();
         }
@@ -181,11 +170,11 @@ public class PlayerController : MonoBehaviour
         }
         if (isGrounded)
         {
-            rb.AddForce(transform.forward * moveInput * actualSpeed, ForceMode.Force);
+            rb.AddForce(new Vector3(-moveInput.x * moveSpeed,0,-moveInput.y * moveSpeed), ForceMode.Force);
         }
         else if (isAirBorn)
         {
-            rb.AddForce(transform.forward * moveInput * actualSpeed * 0.1f, ForceMode.Force);
+            rb.AddForce(new Vector3(-moveInput.x * moveSpeed,0,-moveInput.y * moveSpeed) * 0.1f, ForceMode.Force);
         }
         if (isFalling)
         {
@@ -225,7 +214,14 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
         }
     }
-
+    private void OnEnable()
+    {
+        _actionMap.Enable();
+    }
+    private void OnDisable()
+    {
+        _actionMap.Disable();
+    }
     private void SetArrowDirection()
     {
         arrow.transform.rotation = Quaternion.LookRotation(ball.transform.position - transform.position, Vector3.up) * Quaternion.Euler(90, 0, 0);
