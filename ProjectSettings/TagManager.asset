@@ -6,7 +6,8 @@ TagManager:
   tags:
   - CannonSpawnPoint
   - Ball
-  - DroneRoute
+  - EnergyP1
+  - EnergyP2
   layers:
   - Default
   - TransparentFX

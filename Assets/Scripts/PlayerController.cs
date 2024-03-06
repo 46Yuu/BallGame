@@ -1,5 +1,7 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class PlayerController : MonoBehaviour
@@ -15,6 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int _playerIndex;
 
     [SerializeField] private Animator anim;
+    [SerializeField] private Slider energySlider;
 
     int isWalkingHash;
     int isRunningHash;
@@ -43,9 +46,9 @@ public class PlayerController : MonoBehaviour
     private float jumpInput;
     [SerializeField] private float jumpForce;
 
-    private float energy = 100;
 
     private bool isRunning = false;
+    private bool canRun = true;
 
     private float actualSpeed;
 
@@ -58,6 +61,11 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private PlayerNbr myNumber;
 
+    [SerializeField] private float maxEnergy;
+    private float energy;
+    [SerializeField] private float energyRegen;
+    [SerializeField] private float energyDrain;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -69,6 +77,9 @@ public class PlayerController : MonoBehaviour
         _actionMap = _inputActions.FindActionMap("gameplay");
         _playerIndex = _playerInput.playerIndex;
         anim = GetComponentInChildren<Animator>();
+        energySlider = GameObject.FindWithTag("EnergyP1").GetComponent<Slider>();
+        energy = maxEnergy;
+        energySlider.maxValue = maxEnergy;
     }
     // Start is called before the first frame update
     void Start()
@@ -81,11 +92,11 @@ public class PlayerController : MonoBehaviour
         Emote2Hash = Animator.StringToHash("Emote2");
         ball = GameController.GetInstance().Ball;
         maxSpeed = 25;
-        moveSpeed = 700;
+        moveSpeed = 800;
         jumpForce = 100;
         rotateSpeed = 0.75f;
         fallSpeed = 50.0f;
-        runSpeed = moveSpeed*1.8f;
+        runSpeed = moveSpeed * 2f;
         //cam = GetComponent<Camera>();
     }
     void Update()
@@ -141,13 +152,30 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (Input.GetKey(KeyCode.LeftControl) && energy > 0 && canRun)
         {
+            energy -= energyDrain;
+            energySlider.value = energy;
             isRunning = true;
+            GetComponentInChildren<Camera>().fieldOfView = Mathf.Lerp(GetComponentInChildren<Camera>().fieldOfView, 80, 3f * Time.deltaTime) ;
             anim.SetBool(isRunningHash, true);
         }
         else{
+            if (energy < maxEnergy && !isRunning)
+            {
+                energy += energyRegen;
+                energySlider.value = energy;
+            }
+            if (energy <= maxEnergy/3)
+            {
+                canRun = false;
+            }
+            else
+            {
+                canRun = true;
+            } 
             isRunning = false;
+            GetComponentInChildren<Camera>().fieldOfView = Mathf.Lerp(GetComponentInChildren<Camera>().fieldOfView, 60, 3f * Time.deltaTime);
             anim.SetBool(isRunningHash, false);
         }
         if(Input.GetKeyDown(KeyCode.T))
@@ -170,11 +198,11 @@ public class PlayerController : MonoBehaviour
         }
         if (isGrounded)
         {
-            rb.AddForce(new Vector3(-moveInput.x * moveSpeed,0,-moveInput.y * moveSpeed), ForceMode.Force);
+            rb.AddForce(new Vector3(-moveInput.x * actualSpeed, 0,-moveInput.y * actualSpeed), ForceMode.Force);
         }
         else if (isAirBorn)
         {
-            rb.AddForce(new Vector3(-moveInput.x * moveSpeed,0,-moveInput.y * moveSpeed) * 0.1f, ForceMode.Force);
+            rb.AddForce(new Vector3(-moveInput.x * actualSpeed, 0,-moveInput.y * actualSpeed) * 0.1f, ForceMode.Force);
         }
         if (isFalling)
         {
