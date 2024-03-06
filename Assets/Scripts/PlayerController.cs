@@ -20,7 +20,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator anim;
 
     int isWalkingHash;
-
+    int isRunningHash;
+    int isJumpingHash;
+    int isLandingHash;
+    int Emote1Hash;
+    int Emote2Hash;
     public string playerName;
     //[SerializeField] private Camera cam;
     public Vector3 velocity;
@@ -35,10 +39,18 @@ public class PlayerController : MonoBehaviour
     private float moveInput;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float fallSpeed;
+
+    private float runSpeed;
     private Vector3 rotateInput;
     private float rotateSpeed;
     private float jumpInput;
     [SerializeField] private float jumpForce;
+
+    private float energy = 100;
+
+    private bool isRunning = false;
+
+    private float actualSpeed;
 
     private int maxSpeed;
     [SerializeField] private float dashTimer;
@@ -64,12 +76,18 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         isWalkingHash = Animator.StringToHash("IsWalking");
+        isRunningHash = Animator.StringToHash("IsRunning");
+        isJumpingHash = Animator.StringToHash("Jumped");
+        isLandingHash = Animator.StringToHash("IsLanded");
+        Emote1Hash = Animator.StringToHash("Emote1");
+        Emote2Hash = Animator.StringToHash("Emote2");
         ball = GameController.GetInstance().Ball;
         maxSpeed = 25;
-        moveSpeed = 1200;
+        moveSpeed = 700;
         jumpForce = 100;
         rotateSpeed = 0.75f;
         fallSpeed = 50.0f;
+        runSpeed = moveSpeed*1.8f;
         //cam = GetComponent<Camera>();
     }
     void Update()
@@ -88,7 +106,7 @@ public class PlayerController : MonoBehaviour
         {
             rotateInput = new Vector3(0, Input.GetAxis("Player1H"), 0);
             moveInput = Input.GetAxis("Player1V");
-            if(moveInput != 0)
+            if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
             {
                 anim.SetBool(isWalkingHash, true);
             }
@@ -107,14 +125,19 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = false;
             isFalling = false;
+            //anim.ResetTrigger(isJumpingHash);
             rb.drag = baseDrag;
         }
         else
         {
             rb.drag = 0;
         }
-        if (Physics.Raycast(transform.position, Vector3.down, 0.5f, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(transform.position, Vector3.down, 0.4f, LayerMask.GetMask("Ground")))
         {
+            if(anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+            {
+                anim.SetBool(isLandingHash, true);
+            }
             isGrounded = true;
             isAirBorn = false;
         }
@@ -129,18 +152,40 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            isRunning = true;
+            anim.SetBool(isRunningHash, true);
+        }
+        else{
+            isRunning = false;
+            anim.SetBool(isRunningHash, false);
+        }
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            anim.SetTrigger(Emote1Hash);
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            anim.SetTrigger(Emote2Hash);
+        }
         SetArrowDirection();
     }
     void FixedUpdate()
     {
         velocity = rb.velocity;
+        actualSpeed = moveSpeed;
+        if (isRunning)
+        {
+            actualSpeed = runSpeed;
+        }
         if (isGrounded)
         {
-            rb.AddForce(transform.forward * moveInput * moveSpeed, ForceMode.Force);
+            rb.AddForce(transform.forward * moveInput * actualSpeed, ForceMode.Force);
         }
         else if (isAirBorn)
         {
-            rb.AddForce(transform.forward * moveInput * moveSpeed * 0.1f, ForceMode.Force);
+            rb.AddForce(transform.forward * moveInput * actualSpeed * 0.1f, ForceMode.Force);
         }
         if (isFalling)
         {
@@ -153,6 +198,8 @@ public class PlayerController : MonoBehaviour
         if (isGrounded || canDoubleJump)
         {
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            anim.SetBool(isLandingHash, false);
+            anim.SetTrigger(isJumpingHash);
             if (!canDoubleJump)
             {
                 canDoubleJump = true;

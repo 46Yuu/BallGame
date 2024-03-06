@@ -62,7 +62,7 @@ public class Drone : MonoBehaviour
                 timeSpeed = chaseSpeed * Time.deltaTime;
             } 
             transform.position = Vector3.MoveTowards(transform.position, path[nextPoint], timeSpeed);
-            transform.rotation = Quaternion.LookRotation(path[nextPoint]);
+            transform.rotation = Quaternion.LookRotation(path[nextPoint] - transform.position);
         }
             
     }
