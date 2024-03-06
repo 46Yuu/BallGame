@@ -25,4 +25,9 @@ public class BallController : MonoBehaviour
             latesPlayerHit = collision.gameObject;
         }
     }
+
+    public Rigidbody GetRigidbody()
+    {
+        return rb;
+    }
 }

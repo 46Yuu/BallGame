@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
         _actionMap = _inputActions.FindActionMap("gameplay");
         _playerIndex = _playerInput.playerIndex;
         anim = GetComponentInChildren<Animator>();
-        energySlider = GameObject.FindWithTag("EnergyP1").GetComponent<Slider>();
+        //energySlider = GameObject.FindWithTag("EnergyP1").GetComponent<Slider>();
         energy = maxEnergy;
         energySlider.maxValue = maxEnergy;
     }
@@ -253,5 +253,17 @@ public class PlayerController : MonoBehaviour
     private void SetArrowDirection()
     {
         arrow.transform.rotation = Quaternion.LookRotation(ball.transform.position - transform.position, Vector3.up) * Quaternion.Euler(90, 0, 0);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Ball") && Input.GetKeyDown(KeyCode.T))
+        {
+            Debug.Log("SHOOT");
+            ball.gameObject.GetComponent<Rigidbody>().AddForce((ball.gameObject.transform.position - transform.position).normalized * (energy), ForceMode.Impulse);
+            ball.gameObject.GetComponent<BallController>().latesPlayerHit = gameObject;
+            energy = 0;
+            energySlider.value = energy;
+        }
     }
 }
