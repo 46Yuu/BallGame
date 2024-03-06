@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionAsset _inputActions;
     [SerializeField] private int _playerIndex;
 
+    [SerializeField] private Animator anim;
+
+    int isWalkingHash;
 
     public string playerName;
     //[SerializeField] private Camera cam;
@@ -55,10 +58,12 @@ public class PlayerController : MonoBehaviour
         _playerActions = new InputActions();
         _inputActions = _playerInput.actions;
         _playerIndex = _playerInput.playerIndex;
+        anim = GetComponentInChildren<Animator>();
     }
     // Start is called before the first frame update
     void Start()
     {
+        isWalkingHash = Animator.StringToHash("IsWalking");
         ball = GameController.GetInstance().Ball;
         maxSpeed = 25;
         moveSpeed = 1200;
@@ -83,6 +88,14 @@ public class PlayerController : MonoBehaviour
         {
             rotateInput = new Vector3(0, Input.GetAxis("Player1H"), 0);
             moveInput = Input.GetAxis("Player1V");
+            if(moveInput != 0)
+            {
+                anim.SetBool(isWalkingHash, true);
+            }
+            else
+            {
+                anim.SetBool(isWalkingHash, false);
+            }
         }
         else if (myNumber == PlayerNbr.Player_2)
         {
