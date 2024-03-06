@@ -1,13 +1,21 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.DefaultInputActions;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Player Components")]
     [SerializeField] private Rigidbody rb;
     [SerializeField] private BoxCollider collider;
     [SerializeField] private GameObject arrow;
     [SerializeField] private GameObject ball;
+    [SerializeField] private Camera cam;
+    [SerializeField] private GameObject pivotX;
+    [SerializeField] private GameObject pivotY;
+    [SerializeField] private GameObject mainBody;
+
+    [Header("Player Input")]
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private PlayerActions _playerActions;
     [SerializeField] private InputActionAsset _inputActions;
@@ -29,7 +37,13 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float fallSpeed;
+<<<<<<< Updated upstream
     private Vector3 rotateInput;
+=======
+
+    private float runSpeed;
+    private Vector2 rotateInput;
+>>>>>>> Stashed changes
     private float rotateSpeed;
     private float jumpInput;
     [SerializeField] private float jumpForce;
@@ -53,9 +67,17 @@ public class PlayerController : MonoBehaviour
         _inputActions = _playerInput.actions;
         _actionMap = _inputActions.FindActionMap("gameplay");
         _playerIndex = _playerInput.playerIndex;
+<<<<<<< Updated upstream
+=======
+        anim = GetComponentInChildren<Animator>();
+        cam = GetComponentInChildren<Camera>();
+        pivotX = transform.Find("PivotX").gameObject;
+        pivotY = pivotX.transform.Find("PivotY").gameObject;
+        mainBody = transform.Find("Mesh Object").gameObject;
+>>>>>>> Stashed changes
     }
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         ball = GameController.GetInstance().Ball;
         maxSpeed = 25;
@@ -63,7 +85,41 @@ public class PlayerController : MonoBehaviour
         jumpForce = 100;
         rotateSpeed = 0.75f;
         fallSpeed = 50.0f;
+<<<<<<< Updated upstream
         //cam = GetComponent<Camera>();
+=======
+        runSpeed = moveSpeed * 1.8f;
+       /* if (GameController.GetInstance().numberOfPlayers == 2)
+        {
+            switch (myNumber)
+            {
+                case PlayerNbr.Player_1:
+                    cam.rect = new Rect(0, 0, 0.5f, 1);
+                    break;
+                case PlayerNbr.Player_2:
+                    cam.rect = new Rect(0.5f, 0, 0.5f, 1);
+                    break;
+            }
+        }
+        else
+        {
+            switch (myNumber)
+            {
+                case PlayerNbr.Player_1:
+                    cam.rect = new Rect(0, 0, 0.5f, 0.5f);
+                    break;
+                case PlayerNbr.Player_2:
+                    cam.rect = new Rect(0.5f, 0, 0.5f, 0.5f);
+                    break;
+                case PlayerNbr.Player_3:
+                    cam.rect = new Rect(0, 0.5f, 0.5f, 0.5f);
+                    break;
+                case PlayerNbr.Player_4:
+                    cam.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
+                    break;
+            }
+        }*/
+>>>>>>> Stashed changes
     }
     void Update()
     {
@@ -77,6 +133,7 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
             isFalling = true;
         }
+<<<<<<< Updated upstream
         //rotateInput = new Vector3(0, Input.GetAxis("Player1H"), 0);
         moveInput = _actionMap.FindAction("Move").ReadValue<Vector2>();
         Debug.Log(moveInput);
@@ -86,6 +143,20 @@ public class PlayerController : MonoBehaviour
             moveInput = new Vector2(0,Input.GetAxis("Player2V"));
             //jumpInput = Input.GetAxis("JumpP2");
         }
+=======
+        moveInput = _actionMap.FindAction("Move").ReadValue<Vector2>();
+        if (moveInput != Vector2.zero)
+        {
+            anim.SetBool(isWalkingHash, true);
+            float angle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
+            mainBody.transform.rotation = Quaternion.Euler(-90, angle, 0) ;
+        }
+        else
+        {
+            anim.SetBool(isWalkingHash, false);
+        }
+        rotateInput = _actionMap.FindAction("Camera").ReadValue<Vector2>();
+>>>>>>> Stashed changes
         if (isGrounded)
         {
             isJumping = false;
@@ -98,6 +169,13 @@ public class PlayerController : MonoBehaviour
         }
         if (Physics.Raycast(transform.position, Vector3.down, 0.5f, LayerMask.GetMask("Ground")))
         {
+<<<<<<< Updated upstream
+=======
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+            {
+                anim.SetBool(isLandingHash, true);
+            }
+>>>>>>> Stashed changes
             isGrounded = true;
             isAirBorn = false;
         }
@@ -106,24 +184,52 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
             isAirBorn = true;
         }
-        transform.Rotate(rotateInput * rotateSpeed, Space.Self);
-        //rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
-        if(_actionMap.FindAction("Jump").WasPerformedThisFrame())
+        pivotY.transform.Rotate(new Vector3(-rotateInput.y,0,0) * rotateSpeed);
+        pivotX.transform.Rotate(new Vector3(0, rotateInput.x, 0) * rotateSpeed);
+       
+        if (_actionMap.FindAction("Jump").WasPerformedThisFrame())
         {
             Jump();
         }
+<<<<<<< Updated upstream
         SetArrowDirection();
+=======
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            isRunning = true;
+            anim.SetBool(isRunningHash, true);
+        }
+        else
+        {
+            isRunning = false;
+            anim.SetBool(isRunningHash, false);
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            anim.SetTrigger(Emote1Hash);
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            anim.SetTrigger(Emote2Hash);
+        }
+        if(ball != null)
+            SetArrowDirection();
+>>>>>>> Stashed changes
     }
     void FixedUpdate()
     {
         velocity = rb.velocity;
         if (isGrounded)
         {
-            rb.AddForce(new Vector3(-moveInput.x * moveSpeed,0,-moveInput.y * moveSpeed), ForceMode.Force);
+            rb.AddForce(pivotX.transform.forward * moveInput.y * moveSpeed + pivotX.transform.right * moveInput.x * moveSpeed, ForceMode.Force);
         }
         else if (isAirBorn)
         {
+<<<<<<< Updated upstream
             rb.AddForce(transform.forward * moveInput * moveSpeed * 0.1f, ForceMode.Force);
+=======
+            rb.AddForce((pivotX.transform.forward * moveInput.y * moveSpeed + pivotX.transform.right * moveInput.x * moveSpeed) * 0.1f, ForceMode.Force);
+>>>>>>> Stashed changes
         }
         if (isFalling)
         {
