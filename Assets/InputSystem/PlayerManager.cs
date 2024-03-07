@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviour
 {
     static PlayerManager instance;
     private List<PlayerInput> _players = new List<PlayerInput>();
-    private PlayerInputManager _playerInputMan;
+    public PlayerInputManager _playerInputMan;
     [SerializeField] private int _playersRequired = 2;
     [SerializeField] private PlayerInput _playerOne;
     public GameObject[] _tmpLife;
@@ -34,6 +34,7 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         _playerInputMan = GetComponent<PlayerInputManager>();
+        _playerInputMan.DisableJoining();
        // UpdatePlayerLeft();
     }
 
@@ -67,7 +68,11 @@ public class PlayerManager : MonoBehaviour
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        GameController.GetInstance().Init();
+        if(SceneManager.GetActiveScene().name == "GameScene")
+        {
+            GameController.GetInstance().Init();
+        }
+        UiManager.GetInstance().Init();
         foreach(PlayerInput player in _players)
         {
            //player.gameObject.GetComponent<PlayerController>().Init();

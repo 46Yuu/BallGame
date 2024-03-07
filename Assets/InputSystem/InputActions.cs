@@ -53,6 +53,33 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""1b72df14-b8f6-4a94-b4d3-b1206b661e98"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""a5d5e995-ec4f-429d-997f-4c6db40e6193"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CamBallon"",
+                    ""type"": ""Button"",
+                    ""id"": ""98a3320e-fb1c-4bb0-9216-e98611615acf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -242,6 +269,39 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6ebd8d91-76a2-4a6f-98cb-51e474776d2c"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""91e67de3-9155-4b86-9e2f-5ee4c1229f4a"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""36c094f4-4f58-4a0e-bdd6-7c52cbb9cfcb"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CamBallon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -253,6 +313,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_gameplay_Move = m_gameplay.FindAction("Move", throwIfNotFound: true);
         m_gameplay_Jump = m_gameplay.FindAction("Jump", throwIfNotFound: true);
         m_gameplay_Camera = m_gameplay.FindAction("Camera", throwIfNotFound: true);
+        m_gameplay_Shoot = m_gameplay.FindAction("Shoot", throwIfNotFound: true);
+        m_gameplay_Sprint = m_gameplay.FindAction("Sprint", throwIfNotFound: true);
+        m_gameplay_CamBallon = m_gameplay.FindAction("CamBallon", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -317,6 +380,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_gameplay_Move;
     private readonly InputAction m_gameplay_Jump;
     private readonly InputAction m_gameplay_Camera;
+    private readonly InputAction m_gameplay_Shoot;
+    private readonly InputAction m_gameplay_Sprint;
+    private readonly InputAction m_gameplay_CamBallon;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -324,6 +390,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_gameplay_Move;
         public InputAction @Jump => m_Wrapper.m_gameplay_Jump;
         public InputAction @Camera => m_Wrapper.m_gameplay_Camera;
+        public InputAction @Shoot => m_Wrapper.m_gameplay_Shoot;
+        public InputAction @Sprint => m_Wrapper.m_gameplay_Sprint;
+        public InputAction @CamBallon => m_Wrapper.m_gameplay_CamBallon;
         public InputActionMap Get() { return m_Wrapper.m_gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -342,6 +411,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Camera.started += instance.OnCamera;
             @Camera.performed += instance.OnCamera;
             @Camera.canceled += instance.OnCamera;
+            @Shoot.started += instance.OnShoot;
+            @Shoot.performed += instance.OnShoot;
+            @Shoot.canceled += instance.OnShoot;
+            @Sprint.started += instance.OnSprint;
+            @Sprint.performed += instance.OnSprint;
+            @Sprint.canceled += instance.OnSprint;
+            @CamBallon.started += instance.OnCamBallon;
+            @CamBallon.performed += instance.OnCamBallon;
+            @CamBallon.canceled += instance.OnCamBallon;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -355,6 +433,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Camera.started -= instance.OnCamera;
             @Camera.performed -= instance.OnCamera;
             @Camera.canceled -= instance.OnCamera;
+            @Shoot.started -= instance.OnShoot;
+            @Shoot.performed -= instance.OnShoot;
+            @Shoot.canceled -= instance.OnShoot;
+            @Sprint.started -= instance.OnSprint;
+            @Sprint.performed -= instance.OnSprint;
+            @Sprint.canceled -= instance.OnSprint;
+            @CamBallon.started -= instance.OnCamBallon;
+            @CamBallon.performed -= instance.OnCamBallon;
+            @CamBallon.canceled -= instance.OnCamBallon;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -377,5 +464,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
+        void OnCamBallon(InputAction.CallbackContext context);
     }
 }
