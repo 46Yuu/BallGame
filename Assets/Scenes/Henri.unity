@@ -2974,6 +2974,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8061533360977816322, guid: a394aef926ad37c4c890282fdc9b83ef, type: 3}
+      propertyPath: energyDrain
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061533360977816322, guid: a394aef926ad37c4c890282fdc9b83ef, type: 3}
+      propertyPath: energyRegen
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061533360977816322, guid: a394aef926ad37c4c890282fdc9b83ef, type: 3}
       propertyPath: energySlider
       value: 
       objectReference: {fileID: 2018913849}
