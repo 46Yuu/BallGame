@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -31,6 +32,8 @@ public class PlayerController : MonoBehaviour
     int isJumpingHash;
     int isLandingHash;
 
+    int DashedHash;
+
     bool usingJetpack = false;
     int Emote1Hash;
     int Emote2Hash;
@@ -61,8 +64,7 @@ public class PlayerController : MonoBehaviour
     private float actualSpeed;
 
     private int maxSpeed;
-    [SerializeField] private float dashTimer;
-    [SerializeField] private float dashCoolDown;
+    [SerializeField] private float dashSpeed;
     [SerializeField] private bool isGrounded = false;
 
     enum PlayerNbr { Player_1, Player_2, Player_3, Player_4 };
@@ -73,6 +75,7 @@ public class PlayerController : MonoBehaviour
     private float energy;
     [SerializeField] private float energyRegen;
     [SerializeField] private float energyDrain;
+    [SerializeField] private ParticleSystem jetpackParticles;
 
     private void Awake()
     {
@@ -85,6 +88,7 @@ public class PlayerController : MonoBehaviour
         _actionMap = _inputActions.FindActionMap("gameplay");
         _playerIndex = _playerInput.playerIndex;
         anim = GetComponentInChildren<Animator>();
+        jetpackParticles = GetComponentInChildren<ParticleSystem>();
         //energySlider = GameObject.FindWithTag("EnergyP1").GetComponent<Slider>();
         energy = maxEnergy;
         energySlider.maxValue = maxEnergy;
@@ -100,6 +104,7 @@ public class PlayerController : MonoBehaviour
         isRunningHash = Animator.StringToHash("IsRunning");
         isJumpingHash = Animator.StringToHash("Jumped");
         isLandingHash = Animator.StringToHash("IsLanded");
+        DashedHash = Animator.StringToHash("Dashed");
         Emote1Hash = Animator.StringToHash("Emote1");
         Emote2Hash = Animator.StringToHash("Emote2");
         ball = GameController.GetInstance().Ball;
@@ -192,7 +197,12 @@ public class PlayerController : MonoBehaviour
         }
         pivotY.transform.Rotate(new Vector3(-rotateInput.y,0,0) * rotateSpeed);
         pivotX.transform.Rotate(new Vector3(0, rotateInput.x, 0) * rotateSpeed);
-       
+        if (Input.GetKeyDown(KeyCode.F) && energy- maxEnergy/2 > 0 && !isAirBorn)
+        {
+            rb.AddForce(pivotX.transform.forward * dashSpeed, ForceMode.Impulse);
+            energy -= maxEnergy / 2;
+            anim.SetTrigger(DashedHash);
+        }
         if (_actionMap.FindAction("Jump").WasPerformedThisFrame() )
         {
             Jump();
@@ -202,6 +212,7 @@ public class PlayerController : MonoBehaviour
             Jetpack();
         }
         else{
+            jetpackParticles.Stop();
             usingJetpack = false;
         }
         if (Input.GetKey(KeyCode.LeftControl) && energy > 0 && canRun)
@@ -213,6 +224,7 @@ public class PlayerController : MonoBehaviour
             anim.SetBool(isRunningHash, true);
         }
         else{
+            isRunning = false;
             if (energy < maxEnergy && !isRunning && !usingJetpack)
             {
                 energy += energyRegen;
@@ -226,7 +238,6 @@ public class PlayerController : MonoBehaviour
             {
                 canRun = true;
             } 
-            isRunning = false;
             GetComponentInChildren<Camera>().fieldOfView = Mathf.Lerp(GetComponentInChildren<Camera>().fieldOfView, 60, 3f * Time.deltaTime);
             anim.SetBool(isRunningHash, false);
         }
@@ -285,7 +296,11 @@ public class PlayerController : MonoBehaviour
     {
         if (energy > 0 && isAirBorn)
         {
-            rb.AddForce(transform.up * jumpForce * 0.2f, ForceMode.Force);
+            if (!jetpackParticles.isPlaying)
+            {
+                jetpackParticles.Play();
+            }
+            rb.AddForce(transform.up * jumpForce * 0.3f, ForceMode.Force);
             usingJetpack = true;
             energy -= energyDrain;
             energySlider.value = energy;
