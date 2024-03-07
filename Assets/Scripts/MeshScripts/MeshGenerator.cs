@@ -131,8 +131,8 @@ public class MeshGenerator : MonoBehaviour
 
     void SetupStartPos()
     {
-        GameObject.Find("startPosP1").transform.position = new UnityEngine.Vector3(0, maxTerrainHeight + 1, (zSize / 2) - 20);
-        GameObject.Find("startPosP2").transform.position = new UnityEngine.Vector3(0, maxTerrainHeight + 1, -(zSize / 2) + 20); 
+        GameObject.Find("startPosP1").transform.position = new UnityEngine.Vector3(0, maxTerrainHeight + 1, (zSize / 2) - 15);
+        GameObject.Find("startPosP2").transform.position = new UnityEngine.Vector3(0, maxTerrainHeight + 1, -(zSize / 2) + 15); 
         GameObject.Find("startPosBall").transform.position = new UnityEngine.Vector3(0, maxTerrainHeight+10, 0);
         
     }   

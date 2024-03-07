@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     int isRunningHash;
     int isJumpingHash;
     int isLandingHash;
+
+    bool usingJetpack = false;
     int Emote1Hash;
     int Emote2Hash;
     public string playerName;
@@ -191,9 +193,16 @@ public class PlayerController : MonoBehaviour
         pivotY.transform.Rotate(new Vector3(-rotateInput.y,0,0) * rotateSpeed);
         pivotX.transform.Rotate(new Vector3(0, rotateInput.x, 0) * rotateSpeed);
        
-        if (_actionMap.FindAction("Jump").WasPerformedThisFrame())
+        if (_actionMap.FindAction("Jump").WasPerformedThisFrame() )
         {
             Jump();
+        }
+        if (_actionMap.FindAction("Jump").ReadValue<float>() != 0)
+        {
+            Jetpack();
+        }
+        else{
+            usingJetpack = false;
         }
         if (Input.GetKey(KeyCode.LeftControl) && energy > 0 && canRun)
         {
@@ -204,7 +213,7 @@ public class PlayerController : MonoBehaviour
             anim.SetBool(isRunningHash, true);
         }
         else{
-            if (energy < maxEnergy && !isRunning)
+            if (energy < maxEnergy && !isRunning && !usingJetpack)
             {
                 energy += energyRegen;
                 energySlider.value = energy;
@@ -271,6 +280,18 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    private void Jetpack()
+    {
+        if (energy > 0 && isAirBorn)
+        {
+            rb.AddForce(transform.up * jumpForce * 0.2f, ForceMode.Force);
+            usingJetpack = true;
+            energy -= energyDrain;
+            energySlider.value = energy;
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == LayerMask.GetMask("Ground"))
