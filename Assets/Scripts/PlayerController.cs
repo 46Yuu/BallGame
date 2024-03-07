@@ -144,8 +144,9 @@ public class PlayerController : MonoBehaviour
         if (moveInput != Vector2.zero)
         {
             anim.SetBool(isWalkingHash, true);
-            float angle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
-            mainBody.transform.rotation = Quaternion.Euler(-90, angle, 0) ;
+            /*float angle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
+            mainBody.transform.rotation = Quaternion.Euler(-90, angle, 0) ;*/
+            mainBody.transform.rotation = Quaternion.LookRotation(pivotX.transform.rotation * new Vector3(moveInput.x, 0, moveInput.y), Vector3.up);
         }
         else
         {
@@ -184,7 +185,7 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
-        if (Input.GetKey(KeyCode.LeftControl))
+        if (_actionMap.FindAction("Sprint").IsPressed())
         {
             isRunning = true;
             anim.SetBool(isRunningHash, true);
@@ -194,11 +195,7 @@ public class PlayerController : MonoBehaviour
             isRunning = false;
             anim.SetBool(isRunningHash, false);
         }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            anim.SetTrigger(Emote1Hash);
-        }
-        if (Input.GetKeyDown(KeyCode.Y))
+        if (_actionMap.FindAction("Emote").WasPerformedThisFrame())
         {
             anim.SetTrigger(Emote2Hash);
         }

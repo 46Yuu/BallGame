@@ -53,6 +53,42 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""d6c007de-f3e0-4cb0-87fc-06f0a801a698"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""19096ddb-3cee-458c-99fe-291caf63e75d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dive"",
+                    ""type"": ""Button"",
+                    ""id"": ""c6970636-f097-4b64-adb5-d5600ca7645f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Emote"",
+                    ""type"": ""Button"",
+                    ""id"": ""84b2e5c5-2010-4233-9843-272edc58bbae"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -242,6 +278,94 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""01c069a3-9a9e-4dd1-93b7-447d559ad323"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b8429a9b-76be-4cd2-9e04-c00b2cbbbe42"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1de3ad83-a55b-4ad2-9bac-f893450252e8"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8814a1eb-9300-4484-8a39-36f14a46e4f1"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5ccea179-422a-409a-9b7d-231ce2ad59eb"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""156481be-f7cc-4365-9be3-41e11352dcdb"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dive"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""56ccf0c0-6c19-4ea5-b6eb-8482ea8c0ab0"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Emote"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c061c3ac-57ee-4a39-b87a-2d1b0ef01298"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Emote"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -253,6 +377,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_gameplay_Move = m_gameplay.FindAction("Move", throwIfNotFound: true);
         m_gameplay_Jump = m_gameplay.FindAction("Jump", throwIfNotFound: true);
         m_gameplay_Camera = m_gameplay.FindAction("Camera", throwIfNotFound: true);
+        m_gameplay_Shoot = m_gameplay.FindAction("Shoot", throwIfNotFound: true);
+        m_gameplay_Sprint = m_gameplay.FindAction("Sprint", throwIfNotFound: true);
+        m_gameplay_Dive = m_gameplay.FindAction("Dive", throwIfNotFound: true);
+        m_gameplay_Emote = m_gameplay.FindAction("Emote", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -317,6 +445,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_gameplay_Move;
     private readonly InputAction m_gameplay_Jump;
     private readonly InputAction m_gameplay_Camera;
+    private readonly InputAction m_gameplay_Shoot;
+    private readonly InputAction m_gameplay_Sprint;
+    private readonly InputAction m_gameplay_Dive;
+    private readonly InputAction m_gameplay_Emote;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -324,6 +456,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_gameplay_Move;
         public InputAction @Jump => m_Wrapper.m_gameplay_Jump;
         public InputAction @Camera => m_Wrapper.m_gameplay_Camera;
+        public InputAction @Shoot => m_Wrapper.m_gameplay_Shoot;
+        public InputAction @Sprint => m_Wrapper.m_gameplay_Sprint;
+        public InputAction @Dive => m_Wrapper.m_gameplay_Dive;
+        public InputAction @Emote => m_Wrapper.m_gameplay_Emote;
         public InputActionMap Get() { return m_Wrapper.m_gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -342,6 +478,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Camera.started += instance.OnCamera;
             @Camera.performed += instance.OnCamera;
             @Camera.canceled += instance.OnCamera;
+            @Shoot.started += instance.OnShoot;
+            @Shoot.performed += instance.OnShoot;
+            @Shoot.canceled += instance.OnShoot;
+            @Sprint.started += instance.OnSprint;
+            @Sprint.performed += instance.OnSprint;
+            @Sprint.canceled += instance.OnSprint;
+            @Dive.started += instance.OnDive;
+            @Dive.performed += instance.OnDive;
+            @Dive.canceled += instance.OnDive;
+            @Emote.started += instance.OnEmote;
+            @Emote.performed += instance.OnEmote;
+            @Emote.canceled += instance.OnEmote;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -355,6 +503,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Camera.started -= instance.OnCamera;
             @Camera.performed -= instance.OnCamera;
             @Camera.canceled -= instance.OnCamera;
+            @Shoot.started -= instance.OnShoot;
+            @Shoot.performed -= instance.OnShoot;
+            @Shoot.canceled -= instance.OnShoot;
+            @Sprint.started -= instance.OnSprint;
+            @Sprint.performed -= instance.OnSprint;
+            @Sprint.canceled -= instance.OnSprint;
+            @Dive.started -= instance.OnDive;
+            @Dive.performed -= instance.OnDive;
+            @Dive.canceled -= instance.OnDive;
+            @Emote.started -= instance.OnEmote;
+            @Emote.performed -= instance.OnEmote;
+            @Emote.canceled -= instance.OnEmote;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -377,5 +537,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
+        void OnSprint(InputAction.CallbackContext context);
+        void OnDive(InputAction.CallbackContext context);
+        void OnEmote(InputAction.CallbackContext context);
     }
 }
