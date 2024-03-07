@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private BoxCollider collider;
     [SerializeField] private GameObject arrow;
     [SerializeField] private GameObject ball;
-    [SerializeField] private Camera cam;
+    [SerializeField] public Camera cam;
     [SerializeField] private GameObject pivotX;
     [SerializeField] private GameObject pivotY;
     [SerializeField] private GameObject mainBody;
@@ -67,9 +67,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float dashSpeed;
     [SerializeField] private bool isGrounded = false;
 
-    enum PlayerNbr { Player_1, Player_2, Player_3, Player_4 };
+    public enum PlayerNbr { Player_1, Player_2, Player_3, Player_4 };
 
-    [SerializeField] private PlayerNbr myNumber;
+    [SerializeField] public PlayerNbr myNumber;
 
     [SerializeField] private float maxEnergy;
     private float energy;
@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float energyDrain;
     [SerializeField] private ParticleSystem jetpackParticles;
 
+    private bool canPlay = false;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -91,15 +92,17 @@ public class PlayerController : MonoBehaviour
         jetpackParticles = GetComponentInChildren<ParticleSystem>();
         //energySlider = GameObject.FindWithTag("EnergyP1").GetComponent<Slider>();
         energy = maxEnergy;
-        energySlider.maxValue = maxEnergy;
         cam = GetComponentInChildren<Camera>();
         pivotX = transform.Find("PivotX").gameObject;
         pivotY = pivotX.transform.Find("PivotY").gameObject;
         mainBody = transform.Find("Mesh Object").gameObject;
+        cam.enabled = !cam.enabled;
     }
     // Start is called before the first frame update
     public void Init()
     {
+        cam.enabled = true;
+        canPlay = true;
         isWalkingHash = Animator.StringToHash("IsWalking");
         isRunningHash = Animator.StringToHash("IsRunning");
         isJumpingHash = Animator.StringToHash("Jumped");
@@ -114,8 +117,24 @@ public class PlayerController : MonoBehaviour
         rotateSpeed = 0.75f;
         fallSpeed = 50.0f;
         runSpeed = moveSpeed * 2f;
-        //cam = GetComponent<Camera>();
-       /* if (GameController.GetInstance().numberOfPlayers == 2)
+        switch (myNumber)
+        {
+            case PlayerNbr.Player_1:
+                energySlider = GameObject.FindWithTag("EnergyP1").GetComponent<Slider>();
+                break;
+            case PlayerNbr.Player_2:
+                energySlider = GameObject.FindWithTag("EnergyP2").GetComponent<Slider>();
+                break;
+            case PlayerNbr.Player_3:
+                energySlider = GameObject.FindWithTag("EnergyP3").GetComponent<Slider>();
+                break;
+            case PlayerNbr.Player_4:
+                energySlider = GameObject.FindWithTag("EnergyP4").GetComponent<Slider>();
+                break;
+
+        }
+        energySlider.maxValue = maxEnergy;
+        if (GameController.GetInstance().numberOfPlayers == 2)
         {
             switch (myNumber)
             {
@@ -144,134 +163,144 @@ public class PlayerController : MonoBehaviour
                     cam.rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
                     break;
             }
-        }*/
+        }
     }
     void Update()
     {
-        if (rb.velocity.y > 0 && !isGrounded)
+        if (canPlay)
         {
-            isJumping = true;
-            isFalling = false;
-        }
-        else if (rb.velocity.y < 0 && !isGrounded)
-        {
-            isJumping = false;
-            isFalling = true;
-        }
-        moveInput = _actionMap.FindAction("Move").ReadValue<Vector2>();
-        if (moveInput != Vector2.zero)
-        {
-            anim.SetBool(isWalkingHash, true);
-            /*float angle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
-            mainBody.transform.rotation = Quaternion.Euler(-90, angle, 0) ;*/
-            mainBody.transform.rotation = Quaternion.LookRotation(pivotX.transform.rotation * new Vector3(moveInput.x, 0, moveInput.y), Vector3.up);
-        }
-        else
-        {
-            anim.SetBool(isWalkingHash, false);
-        }
-        rotateInput = _actionMap.FindAction("Camera").ReadValue<Vector2>();
-        if (isGrounded)
-        {
-            isJumping = false;
-            isFalling = false;
-            //anim.ResetTrigger(isJumpingHash);
-            rb.drag = baseDrag;
-        }
-        else
-        {
-            rb.drag = 0;
-        }
-        if (Physics.Raycast(transform.position, Vector3.down, 0.4f, LayerMask.GetMask("Ground")))
-        {
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+
+
+            if (rb.velocity.y > 0 && !isGrounded)
             {
-                anim.SetBool(isLandingHash, true);
+                isJumping = true;
+                isFalling = false;
             }
-            isGrounded = true;
-            isAirBorn = false;
-        }
-        else
-        {
-            isGrounded = false;
-            isAirBorn = true;
-        }
-        pivotY.transform.Rotate(new Vector3(-rotateInput.y,0,0) * rotateSpeed);
-        pivotX.transform.Rotate(new Vector3(0, rotateInput.x, 0) * rotateSpeed);
-        if (_actionMap.FindAction("Dive").WasPerformedThisFrame() && energy- maxEnergy/2 > 0 && !isAirBorn)
-        {
-            rb.AddForce(pivotX.transform.forward * dashSpeed, ForceMode.Impulse);
-            energy -= maxEnergy / 2;
-            anim.SetTrigger(DashedHash);
-        }
-        if (_actionMap.FindAction("Jump").WasPerformedThisFrame() )
-        {
-            Jump();
-        }
-        if (_actionMap.FindAction("Jump").ReadValue<float>() != 0)
-        {
-            Jetpack();
-        }
-        else{
-            jetpackParticles.Stop();
-            usingJetpack = false;
-        }
-        if (_actionMap.FindAction("Sprint").IsPressed() && energy > 0 && canRun)
-        {
-            energy -= energyDrain;
-            energySlider.value = energy;
-            isRunning = true;
-            GetComponentInChildren<Camera>().fieldOfView = Mathf.Lerp(GetComponentInChildren<Camera>().fieldOfView, 80, 3f * Time.deltaTime) ;
-            anim.SetBool(isRunningHash, true);
-        }
-        else{
-            isRunning = false;
-            if (energy < maxEnergy && !isRunning && !usingJetpack)
+            else if (rb.velocity.y < 0 && !isGrounded)
             {
-                energy += energyRegen;
-                energySlider.value = energy;
+                isJumping = false;
+                isFalling = true;
             }
-            if (energy <= maxEnergy/3)
+            moveInput = _actionMap.FindAction("Move").ReadValue<Vector2>();
+            if (moveInput != Vector2.zero)
             {
-                canRun = false;
+                anim.SetBool(isWalkingHash, true);
+                /*float angle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
+                mainBody.transform.rotation = Quaternion.Euler(-90, angle, 0) ;*/
+                mainBody.transform.rotation = Quaternion.LookRotation(pivotX.transform.rotation * new Vector3(moveInput.x, 0, moveInput.y), Vector3.up);
             }
             else
             {
-                canRun = true;
-            } 
-            GetComponentInChildren<Camera>().fieldOfView = Mathf.Lerp(GetComponentInChildren<Camera>().fieldOfView, 60, 3f * Time.deltaTime);
-            anim.SetBool(isRunningHash, false);
+                anim.SetBool(isWalkingHash, false);
+            }
+            rotateInput = _actionMap.FindAction("Camera").ReadValue<Vector2>();
+            if (isGrounded)
+            {
+                isJumping = false;
+                isFalling = false;
+                //anim.ResetTrigger(isJumpingHash);
+                rb.drag = baseDrag;
+            }
+            else
+            {
+                rb.drag = 0;
+            }
+            if (Physics.Raycast(transform.position, Vector3.down, 0.4f, LayerMask.GetMask("Ground")))
+            {
+                if (anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+                {
+                    anim.SetBool(isLandingHash, true);
+                }
+                isGrounded = true;
+                isAirBorn = false;
+            }
+            else
+            {
+                isGrounded = false;
+                isAirBorn = true;
+            }
+            pivotY.transform.Rotate(new Vector3(-rotateInput.y, 0, 0) * rotateSpeed);
+            pivotX.transform.Rotate(new Vector3(0, rotateInput.x, 0) * rotateSpeed);
+            if (_actionMap.FindAction("Dive").WasPerformedThisFrame() && energy - maxEnergy / 2 > 0 && !isAirBorn)
+            {
+                rb.AddForce(pivotX.transform.forward * dashSpeed, ForceMode.Impulse);
+                energy -= maxEnergy / 2;
+                anim.SetTrigger(DashedHash);
+            }
+            if (_actionMap.FindAction("Jump").WasPerformedThisFrame())
+            {
+                Jump();
+            }
+            if (_actionMap.FindAction("Jump").ReadValue<float>() != 0)
+            {
+                Jetpack();
+            }
+            else
+            {
+                jetpackParticles.Stop();
+                usingJetpack = false;
+            }
+            if (_actionMap.FindAction("Sprint").IsPressed() && energy > 0 && canRun)
+            {
+                energy -= energyDrain;
+                energySlider.value = energy;
+                isRunning = true;
+                GetComponentInChildren<Camera>().fieldOfView = Mathf.Lerp(GetComponentInChildren<Camera>().fieldOfView, 80, 3f * Time.deltaTime);
+                anim.SetBool(isRunningHash, true);
+            }
+            else
+            {
+                isRunning = false;
+                if (energy < maxEnergy && !isRunning && !usingJetpack)
+                {
+                    energy += energyRegen;
+                    energySlider.value = energy;
+                }
+                if (energy <= maxEnergy / 3)
+                {
+                    canRun = false;
+                }
+                else
+                {
+                    canRun = true;
+                }
+                GetComponentInChildren<Camera>().fieldOfView = Mathf.Lerp(GetComponentInChildren<Camera>().fieldOfView, 60, 3f * Time.deltaTime);
+                anim.SetBool(isRunningHash, false);
+            }
+            if (_actionMap.FindAction("Emote").WasPerformedThisFrame())
+            {
+                anim.SetTrigger(Emote2Hash);
+            }
+            if (_actionMap.FindAction("Shoot").WasPerformedThisFrame())
+            {
+                anim.SetTrigger(Emote1Hash);
+            }
+            if (ball != null)
+                SetArrowDirection();
         }
-        if (_actionMap.FindAction("Emote").WasPerformedThisFrame())
-        {
-            anim.SetTrigger(Emote2Hash);
-        }
-        if(_actionMap.FindAction("Shoot").WasPerformedThisFrame())
-        {
-            anim.SetTrigger(Emote1Hash);
-        }
-        if (ball != null)
-            SetArrowDirection();
     }
     void FixedUpdate()
     {
-        velocity = rb.velocity;
-        actualSpeed = moveSpeed;
-        if (isRunning)
+        if (canPlay)
         {
-            actualSpeed = runSpeed;
-        }
-        if (isGrounded)
-        {
-            rb.AddForce(pivotX.transform.forward * moveInput.y * actualSpeed + pivotX.transform.right * moveInput.x * actualSpeed, ForceMode.Force);
-        }
-        else if (isAirBorn)
-        {
-            rb.AddForce((pivotX.transform.forward * moveInput.y * actualSpeed + pivotX.transform.right * moveInput.x * actualSpeed) * 0.1f, ForceMode.Force);
-        }
-        if (isFalling)
-        {
-            rb.AddForce(Vector3.down * fallSpeed, ForceMode.Force);
+            velocity = rb.velocity;
+            actualSpeed = moveSpeed;
+            if (isRunning)
+            {
+                actualSpeed = runSpeed;
+            }
+            if (isGrounded)
+            {
+                rb.AddForce(pivotX.transform.forward * moveInput.y * actualSpeed + pivotX.transform.right * moveInput.x * actualSpeed, ForceMode.Force);
+            }
+            else if (isAirBorn)
+            {
+                rb.AddForce((pivotX.transform.forward * moveInput.y * actualSpeed + pivotX.transform.right * moveInput.x * actualSpeed) * 0.1f, ForceMode.Force);
+            }
+            if (isFalling)
+            {
+                rb.AddForce(Vector3.down * fallSpeed, ForceMode.Force);
+            }
         }
     }
 

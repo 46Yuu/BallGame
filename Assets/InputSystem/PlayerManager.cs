@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public class PlayerManager : MonoBehaviour
 {
     static PlayerManager instance;
-    [SerializeField] private List<PlayerInput> _players = new List<PlayerInput>();
+    [SerializeField] public List<PlayerInput> _players = new List<PlayerInput>();
     public PlayerInputManager playerInputMan;
     [SerializeField] public int _playersRequired = 2;
     [SerializeField] private PlayerInput _playerOne;
@@ -37,19 +37,40 @@ public class PlayerManager : MonoBehaviour
         // UpdatePlayerLeft();
     }
 
-    private void I()
+    private void Update()
     {
+        if (_players.Count == _playersRequired)
+        {
+            playerInputMan.DisableJoining();
+        }
     }
     void AddPlayer(PlayerInput playerInput)
     {
-        if (_players.Count < _playersRequired)
+        if (_players.Count <= _playersRequired)
         {
             _players.Add(playerInput);
+            switch (_players.Count)
+            {
+                case 1:
+                    playerInput.gameObject.GetComponent<PlayerController>().myNumber = PlayerController.PlayerNbr.Player_1;
+                    break;
+                case 2:
+                    playerInput.gameObject.GetComponent<PlayerController>().myNumber = PlayerController.PlayerNbr.Player_2;
+                    break;
+                case 3:
+                    playerInput.gameObject.GetComponent<PlayerController>().myNumber = PlayerController.PlayerNbr.Player_3;
+                    break;
+                case 4:
+                    playerInput.gameObject.GetComponent<PlayerController>().myNumber = PlayerController.PlayerNbr.Player_4;
+                    break;
+            }
             if (_playerOne == null)
+            {
                 _playerOne = playerInput;
-            //_players[_players.Count-1].gameObject.transform.position = UIManager.GetInstance().listPlateform[_players.Count-1].transform.position; 
-            _playersRequired -= 1;
+            }
+            _players[_players.Count - 1].gameObject.transform.position = UIManager.GetInstance().listPlateform[_players.Count - 1].transform.position;
         }
+
     }
     private void OnEnable()
     {
@@ -65,10 +86,10 @@ public class PlayerManager : MonoBehaviour
         else if (SceneManager.GetActiveScene().name == "GameScene")
         {
             GameController.GetInstance().Init();
-        }
-        foreach (PlayerInput player in _players)
-        {
-            player.gameObject.GetComponent<PlayerController>().Init();
+            foreach (PlayerInput player in _players)
+            {
+                player.gameObject.GetComponent<PlayerController>().Init();
+            }
         }
     }
     private void OnDisable()
