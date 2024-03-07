@@ -43,9 +43,6 @@ public class GameController : MonoBehaviour
         startPosBall = GameObject.Find("startPosBall");
         startPosP1 = GameObject.Find("startPosP1");
         startPosP2 = GameObject.Find("startPosP2");
-    }
-    private void Start()
-    {
         RoundStart();
     }
     public void RoundStart()

@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
         mainBody = transform.Find("Mesh Object").gameObject;
     }
     // Start is called before the first frame update
-    public void Start()
+    public void Init()
     {
         isWalkingHash = Animator.StringToHash("IsWalking");
         isRunningHash = Animator.StringToHash("IsRunning");

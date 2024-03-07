@@ -10,9 +10,9 @@ using UnityEngine.SceneManagement;
 public class PlayerManager : MonoBehaviour
 {
     static PlayerManager instance;
-    private List<PlayerInput> _players = new List<PlayerInput>();
-    private PlayerInputManager _playerInputMan;
-    [SerializeField] private int _playersRequired = 2;
+    [SerializeField] private List<PlayerInput> _players = new List<PlayerInput>();
+    public PlayerInputManager playerInputMan;
+    [SerializeField] public int _playersRequired = 2;
     [SerializeField] private PlayerInput _playerOne;
     public GameObject[] _tmpLife;
     [SerializeField] private TextMeshProUGUI _playerLeft;
@@ -33,49 +33,47 @@ public class PlayerManager : MonoBehaviour
     #endregion
     private void Awake()
     {
-        _playerInputMan = GetComponent<PlayerInputManager>();
-       // UpdatePlayerLeft();
+        playerInputMan = GetComponent<PlayerInputManager>();
+        // UpdatePlayerLeft();
     }
 
-    private void Update()
+    private void I()
     {
-      /*  if (_playerOne != null)
-            if (_playerOne.actions.FindActionMap("PlayerDanceMoves").FindAction("StartGame").ReadValue<float>() > 0 && !GameManager.Instance.GetGameStart())
-            {
-                //GameManager.Instance.SetGameStart(true);
-                _playerInputMan.DisableJoining();
-            }*/
     }
     void AddPlayer(PlayerInput playerInput)
     {
-        _players.Add(playerInput);
-        if (_playerOne == null)
-            _playerOne = playerInput;
-        _playersRequired -= 1;
-        UpdatePlayerLeft();
-        //Transform playerParent = playerInput.transform;
- /*       SetPlayerColor(playerInput);
-        GameManager.Instance.SetPlayerStartPos(playerInput.transform, playerInput.playerIndex);
-        GameManager.Instance.SetCurrentPlayer();
-        playerInput.GetComponent<PlayerController>()._playerLifeGO = _tmpLife[playerInput.playerIndex];*/
-        //_targetGroup.AddMember(playerInput.transform, 1f, 1f);
+        if (_players.Count < _playersRequired)
+        {
+            _players.Add(playerInput);
+            if (_playerOne == null)
+                _playerOne = playerInput;
+            //_players[_players.Count-1].gameObject.transform.position = UIManager.GetInstance().listPlateform[_players.Count-1].transform.position; 
+            _playersRequired -= 1;
+        }
     }
     private void OnEnable()
     {
-        _playerInputMan.onPlayerJoined += AddPlayer;
+        playerInputMan.onPlayerJoined += AddPlayer;
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        GameController.GetInstance().Init();
-        foreach(PlayerInput player in _players)
+        if (SceneManager.GetActiveScene().name == "SelectScene")
         {
-           //player.gameObject.GetComponent<PlayerController>().Init();
+            UIManager.GetInstance().Init();
+        }
+        else if (SceneManager.GetActiveScene().name == "GameScene")
+        {
+            GameController.GetInstance().Init();
+        }
+        foreach (PlayerInput player in _players)
+        {
+            player.gameObject.GetComponent<PlayerController>().Init();
         }
     }
     private void OnDisable()
     {
-        _playerInputMan.onPlayerJoined -= AddPlayer;
+        playerInputMan.onPlayerJoined -= AddPlayer;
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
