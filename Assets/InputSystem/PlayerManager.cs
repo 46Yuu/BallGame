@@ -5,6 +5,7 @@ using UnityEngine.InputSystem.XR;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -62,11 +63,20 @@ public class PlayerManager : MonoBehaviour
     private void OnEnable()
     {
         _playerInputMan.onPlayerJoined += AddPlayer;
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
-
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        GameController.GetInstance().Init();
+        foreach(PlayerInput player in _players)
+        {
+           //player.gameObject.GetComponent<PlayerController>().Init();
+        }
+    }
     private void OnDisable()
     {
         _playerInputMan.onPlayerJoined -= AddPlayer;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public void UpdatePlayerLeft()

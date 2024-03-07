@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
 
     public int scoreToWin = 10;
 
+    public int numberOfPlayers = 2;
 
     public GameObject Ball;
     private GameObject startPosBall;
@@ -33,7 +34,7 @@ public class GameController : MonoBehaviour
     private GameObject startPosP2;
     public int scoreP2 = 0;
 
-    private void Awake()
+    public void Init()
     {
         Ball = GameObject.Find("Ball");
         Ball.layer = 8;
