@@ -51,8 +51,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.7034187, y: 5.57633, z: 4.575152}
-  m_Center: {x: -0.23731075, y: 0.600262, z: 1.7875756}
+  m_Size: {x: 4.7034187, y: 4.7290993, z: 7.8561616}
+  m_Center: {x: -0.23731068, y: 0.17664552, z: 3.42808}
 --- !u!1 &83657628912661897
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,7 +81,7 @@ Transform:
   m_GameObject: {fileID: 83657628912661897}
   serializedVersion: 2
   m_LocalRotation: {x: 0.084318936, y: -0, z: -0, w: 0.99643886}
-  m_LocalPosition: {x: 0, y: 8.070002, z: -10.16}
+  m_LocalPosition: {x: 0, y: 7.825, z: -11.004}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -189,7 +189,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 83657628912661897}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!1 &2136766997123167514
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 6222348617503684362}
   - component: {fileID: 6327490278627570335}
   - component: {fileID: 5638533525225614840}
+  - component: {fileID: 6207860469643807394}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -386,6 +387,18 @@ MonoBehaviour:
   m_DefaultActionMap: gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &6207860469643807394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5461052779654786451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e270dd2628961f54b9bc50c1838e79c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8406562520837502098
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,7 +485,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3866923782500440147, guid: 101a8868c1adc5b40bdaf7526f47b7b5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.29
+      value: 0.96
       objectReference: {fileID: 0}
     - target: {fileID: 3866923782500440147, guid: 101a8868c1adc5b40bdaf7526f47b7b5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -813,12 +826,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3180228246054961802, guid: f800aa648180d184bb87e693276fe971, type: 3}
       propertyPath: m_VersionIndex
-      value: 1394
+      value: 1397
       objectReference: {fileID: 0}
     - target: {fileID: 3623855849267335200, guid: f800aa648180d184bb87e693276fe971, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: ef813c4a3f591004489d906a650378b2, type: 2}
+      objectReference: {fileID: 2100000, guid: d031d07b1fd6dd84691ad2908662c737, type: 2}
     - target: {fileID: 4919989657617455841, guid: f800aa648180d184bb87e693276fe971, type: 3}
       propertyPath: m_Name
       value: Arrow

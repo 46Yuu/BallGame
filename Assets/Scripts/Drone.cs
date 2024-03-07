@@ -79,7 +79,7 @@ public class Drone : MonoBehaviour
 
     public void StartChaseTimer()
     {
-        timer = Random.Range(30, 60);
+        timer = Random.Range(40, 60);
         StartCoroutine(Chase());
     }
 

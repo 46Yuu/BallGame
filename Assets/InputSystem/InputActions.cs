@@ -89,6 +89,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""6f7adb18-452d-4fb4-b549-a171f31dbeef"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pound"",
+                    ""type"": ""Button"",
+                    ""id"": ""d0252bec-64e1-4b8c-b1fc-3b4e1721494a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -366,6 +384,39 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Emote"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4fe03900-9e7f-484d-bad7-627126ff72af"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bb1d81b7-ae66-418d-9d4d-fb3ad2e2e57a"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reset"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9879d30b-5da3-4dc7-aec4-6af58abcab95"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pound"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -381,6 +432,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_gameplay_Sprint = m_gameplay.FindAction("Sprint", throwIfNotFound: true);
         m_gameplay_Dive = m_gameplay.FindAction("Dive", throwIfNotFound: true);
         m_gameplay_Emote = m_gameplay.FindAction("Emote", throwIfNotFound: true);
+        m_gameplay_Reset = m_gameplay.FindAction("Reset", throwIfNotFound: true);
+        m_gameplay_Pound = m_gameplay.FindAction("Pound", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -449,6 +502,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_gameplay_Sprint;
     private readonly InputAction m_gameplay_Dive;
     private readonly InputAction m_gameplay_Emote;
+    private readonly InputAction m_gameplay_Reset;
+    private readonly InputAction m_gameplay_Pound;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -460,6 +515,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_gameplay_Sprint;
         public InputAction @Dive => m_Wrapper.m_gameplay_Dive;
         public InputAction @Emote => m_Wrapper.m_gameplay_Emote;
+        public InputAction @Reset => m_Wrapper.m_gameplay_Reset;
+        public InputAction @Pound => m_Wrapper.m_gameplay_Pound;
         public InputActionMap Get() { return m_Wrapper.m_gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -490,6 +547,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Emote.started += instance.OnEmote;
             @Emote.performed += instance.OnEmote;
             @Emote.canceled += instance.OnEmote;
+            @Reset.started += instance.OnReset;
+            @Reset.performed += instance.OnReset;
+            @Reset.canceled += instance.OnReset;
+            @Pound.started += instance.OnPound;
+            @Pound.performed += instance.OnPound;
+            @Pound.canceled += instance.OnPound;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -515,6 +578,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Emote.started -= instance.OnEmote;
             @Emote.performed -= instance.OnEmote;
             @Emote.canceled -= instance.OnEmote;
+            @Reset.started -= instance.OnReset;
+            @Reset.performed -= instance.OnReset;
+            @Reset.canceled -= instance.OnReset;
+            @Pound.started -= instance.OnPound;
+            @Pound.performed -= instance.OnPound;
+            @Pound.canceled -= instance.OnPound;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -541,5 +610,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnDive(InputAction.CallbackContext context);
         void OnEmote(InputAction.CallbackContext context);
+        void OnReset(InputAction.CallbackContext context);
+        void OnPound(InputAction.CallbackContext context);
     }
 }

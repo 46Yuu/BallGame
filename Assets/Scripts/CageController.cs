@@ -9,6 +9,7 @@ public class CageController : MonoBehaviour
     [SerializeField] HUDController hudController;
     enum PlayerGoal { Goal_1,Goal_2};
     [SerializeField] PlayerGoal goal;
+    private bool canScore = true;
 
     private void Awake()
     {
@@ -18,7 +19,7 @@ public class CageController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Ball"))
+        if (other.gameObject.CompareTag("Ball") && canScore)
         {
             hudController.textGoal.gameObject.SetActive(true);
             ScoreGoal(other.GetComponent<BallController>().latesPlayerHit);
@@ -30,12 +31,14 @@ public class CageController : MonoBehaviour
     {
         Time.timeScale = 0.6f;
         GetComponent<ParticleSystem>().Play();
+        canScore = false;
         yield return new WaitForSeconds(2);
         GetComponent<ParticleSystem>().Stop();
         Time.timeScale = 1;
         hudController.textGoal.gameObject.SetActive(false);
         yield return new WaitForSeconds(1);
         GameController.GetInstance().RoundStart();
+        canScore = true;
     }
 
     private void ScoreGoal(GameObject player)

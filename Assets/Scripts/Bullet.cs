@@ -25,5 +25,9 @@ public class Bullet : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         Destroy(gameObject);
+        if(collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Ball"))
+        {
+            collision.gameObject.GetComponent<Rigidbody>().AddForce((transform.position - collision.gameObject.transform.position).normalized * collision.gameObject.GetComponent<Rigidbody>().velocity.magnitude, ForceMode.Impulse);
+        }   
     }
 }

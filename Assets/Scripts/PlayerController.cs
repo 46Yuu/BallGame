@@ -60,6 +60,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isRunning = false;
     private bool canRun = true;
+    private bool isPounding = false;
 
     private float actualSpeed;
 
@@ -211,6 +212,10 @@ public class PlayerController : MonoBehaviour
                 {
                     anim.SetBool(isLandingHash, true);
                 }
+                if(isPounding)
+                {
+                    isPounding = false;
+                }
                 isGrounded = true;
                 isAirBorn = false;
             }
@@ -221,16 +226,22 @@ public class PlayerController : MonoBehaviour
             }
             pivotY.transform.Rotate(new Vector3(-rotateInput.y, 0, 0) * rotateSpeed);
             pivotX.transform.Rotate(new Vector3(0, rotateInput.x, 0) * rotateSpeed);
+
+            //Dash
             if (_actionMap.FindAction("Dive").WasPerformedThisFrame() && energy - maxEnergy / 2 > 0 && !isAirBorn)
             {
                 rb.AddForce(pivotX.transform.forward * dashSpeed, ForceMode.Impulse);
                 energy -= maxEnergy / 2;
                 anim.SetTrigger(DashedHash);
             }
+
+            //Jump
             if (_actionMap.FindAction("Jump").WasPerformedThisFrame())
             {
                 Jump();
             }
+
+            //Jetpack
             if (_actionMap.FindAction("Jump").ReadValue<float>() != 0)
             {
                 Jetpack();
@@ -240,6 +251,15 @@ public class PlayerController : MonoBehaviour
                 jetpackParticles.Stop();
                 usingJetpack = false;
             }
+
+            //GroundPound
+            if (_actionMap.FindAction("Pound").WasPerformedThisFrame() && isAirBorn && !isPounding)
+            {
+                isPounding = true;
+                rb.velocity = new Vector3(0, -75, 0);
+            }
+
+            //Sprint
             if (_actionMap.FindAction("Sprint").IsPressed() && energy > 0 && canRun)
             {
                 energy -= energyDrain;
@@ -274,6 +294,10 @@ public class PlayerController : MonoBehaviour
             if (_actionMap.FindAction("Shoot").WasPerformedThisFrame())
             {
                 anim.SetTrigger(Emote1Hash);
+            }
+            if (_actionMap.FindAction("Reset").WasPerformedThisFrame())
+            {
+                transform.position = new Vector3(0, transform.position.y+15, 0);
             }
             if (ball != null)
                 SetArrowDirection();
@@ -335,6 +359,11 @@ public class PlayerController : MonoBehaviour
             energy -= energyDrain;
             energySlider.value = energy;
         }
+        else
+        {
+            jetpackParticles.Stop();
+            usingJetpack = false;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -369,7 +398,6 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ball") && _actionMap.FindAction("Shoot").WasPerformedThisFrame())
         {
-            Debug.Log("SHOOT");
             ball.gameObject.GetComponent<Rigidbody>().AddForce((ball.gameObject.transform.position - transform.position).normalized * (energy), ForceMode.Impulse);
             ball.gameObject.GetComponent<BallController>().latesPlayerHit = gameObject;
             energy = 0;
