@@ -198,7 +198,7 @@ public class PlayerController : MonoBehaviour
         }
         pivotY.transform.Rotate(new Vector3(-rotateInput.y,0,0) * rotateSpeed);
         pivotX.transform.Rotate(new Vector3(0, rotateInput.x, 0) * rotateSpeed);
-        if (Input.GetKeyDown(KeyCode.F) && energy- maxEnergy/2 > 0 && !isAirBorn)
+        if (_actionMap.FindAction("Dive").WasPerformedThisFrame() && energy- maxEnergy/2 > 0 && !isAirBorn)
         {
             rb.AddForce(pivotX.transform.forward * dashSpeed, ForceMode.Impulse);
             energy -= maxEnergy / 2;
@@ -216,7 +216,7 @@ public class PlayerController : MonoBehaviour
             jetpackParticles.Stop();
             usingJetpack = false;
         }
-        if (Input.GetKey(KeyCode.LeftControl) && energy > 0 && canRun)
+        if (_actionMap.FindAction("Sprint").IsPressed() && energy > 0 && canRun)
         {
             energy -= energyDrain;
             energySlider.value = energy;
@@ -246,7 +246,11 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetTrigger(Emote2Hash);
         }
-        if(ball != null)
+        if(_actionMap.FindAction("Shoot").WasPerformedThisFrame())
+        {
+            anim.SetTrigger(Emote1Hash);
+        }
+        if (ball != null)
             SetArrowDirection();
     }
     void FixedUpdate()
@@ -334,7 +338,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("Ball") && Input.GetKeyDown(KeyCode.T))
+        if (other.gameObject.CompareTag("Ball") && _actionMap.FindAction("Shoot").WasPerformedThisFrame())
         {
             Debug.Log("SHOOT");
             ball.gameObject.GetComponent<Rigidbody>().AddForce((ball.gameObject.transform.position - transform.position).normalized * (energy), ForceMode.Impulse);
