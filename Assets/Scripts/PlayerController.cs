@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float energyRegen;
     [SerializeField] private float energyDrain;
     [SerializeField] private ParticleSystem jetpackParticles;
+    [SerializeField] private ParticleSystem groundPoundParticles;
 
     private bool canPlay = false;
     private void Awake()
@@ -91,6 +92,13 @@ public class PlayerController : MonoBehaviour
         _playerIndex = _playerInput.playerIndex;
         anim = GetComponentInChildren<Animator>();
         jetpackParticles = GetComponentInChildren<ParticleSystem>();
+        foreach (ParticleSystem child in GetComponentsInChildren<ParticleSystem>())
+        {
+            if (child.tag == "PoundParticles")
+            {
+                groundPoundParticles = child;
+            }
+        }
         //energySlider = GameObject.FindWithTag("EnergyP1").GetComponent<Slider>();
         energy = maxEnergy;
         cam = GetComponentInChildren<Camera>();
@@ -214,6 +222,7 @@ public class PlayerController : MonoBehaviour
                 }
                 if(isPounding)
                 {
+                    groundPoundParticles.Play();
                     isPounding = false;
                 }
                 isGrounded = true;
@@ -297,7 +306,7 @@ public class PlayerController : MonoBehaviour
             }
             if (_actionMap.FindAction("Reset").WasPerformedThisFrame())
             {
-                transform.position = new Vector3(0, transform.position.y+15, 0);
+                transform.position = new Vector3(transform.position.x, transform.position.y+15, transform.position.z);
             }
             if (ball != null)
                 SetArrowDirection();
