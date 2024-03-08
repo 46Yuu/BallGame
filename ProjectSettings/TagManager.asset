@@ -8,6 +8,9 @@ TagManager:
   - Ball
   - EnergyP1
   - EnergyP2
+  - PoundParticles
+  - EnergyP3
+  - EnergyP4
   layers:
   - Default
   - TransparentFX
