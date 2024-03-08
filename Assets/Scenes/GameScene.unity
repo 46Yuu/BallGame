@@ -499,6 +499,34 @@ PrefabInstance:
       propertyPath: m_Colors.m_SelectedColor.r
       value: 0.65882355
       objectReference: {fileID: 0}
+    - target: {fileID: 1535044295364284021, guid: d72d69207984efd4c9d6eaf9329ec106, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1535044295364284021, guid: d72d69207984efd4c9d6eaf9329ec106, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1535044295364284021, guid: d72d69207984efd4c9d6eaf9329ec106, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 496580275}
+    - target: {fileID: 1535044295364284021, guid: d72d69207984efd4c9d6eaf9329ec106, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1535044295364284021, guid: d72d69207984efd4c9d6eaf9329ec106, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MainMenuButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 1535044295364284021, guid: d72d69207984efd4c9d6eaf9329ec106, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1535044295364284021, guid: d72d69207984efd4c9d6eaf9329ec106, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3166593460298119251, guid: d72d69207984efd4c9d6eaf9329ec106, type: 3}
       propertyPath: m_Name
       value: UI
@@ -542,6 +570,18 @@ PrefabInstance:
     - target: {fileID: 5559766343761675418, guid: d72d69207984efd4c9d6eaf9329ec106, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5559766343761675418, guid: d72d69207984efd4c9d6eaf9329ec106, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Restart
+      objectReference: {fileID: 0}
+    - target: {fileID: 5559766343761675418, guid: d72d69207984efd4c9d6eaf9329ec106, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5559766343761675418, guid: d72d69207984efd4c9d6eaf9329ec106, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6537237187644231106, guid: d72d69207984efd4c9d6eaf9329ec106, type: 3}
       propertyPath: m_AnchorMax.x

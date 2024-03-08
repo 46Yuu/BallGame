@@ -328,7 +328,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (isAirBorn)
             {
-                rb.AddForce((pivotX.transform.forward * moveInput.y * actualSpeed + pivotX.transform.right * moveInput.x * actualSpeed) * 0.1f, ForceMode.Force);
+                rb.AddForce((pivotX.transform.forward * moveInput.y * actualSpeed + pivotX.transform.right * moveInput.x * actualSpeed) * 0.2f, ForceMode.Force);
             }
             if (isFalling)
             {

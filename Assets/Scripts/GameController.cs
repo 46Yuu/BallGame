@@ -148,4 +148,11 @@ public class GameController : MonoBehaviour
     {
         return Ball;
     }
+    public void Restart()
+    {
+        Time.timeScale = 1;
+        scoreP1 = 0;
+        scoreP2 = 0;
+        SceneManager.LoadScene("GameScene");
+    }
 }
