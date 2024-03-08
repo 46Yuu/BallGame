@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,8 @@ public class GameController : MonoBehaviour
     }
 
     public int scoreToWin = 10;
+    [SerializeField] private GameObject timerGo;
+    [SerializeField] private float timerTimer;
 
     public int numberOfPlayers = 2;
 
@@ -68,6 +71,7 @@ public class GameController : MonoBehaviour
         startPosP3_4P = GameObject.Find("startPosP2_2P");
         startPosP4_4P = GameObject.Find("startPosP2_2P");
 
+        timerGo = GameObject.FindWithTag("Timer");
         winPanel = GameObject.Find("WinPanel");
         winPanel.SetActive(false);
 
@@ -75,7 +79,7 @@ public class GameController : MonoBehaviour
     }
     public void RoundStart()
     {
-        Debug.Log("Round Start");
+        timerTimer = 300f;
         Ball.transform.position = startPosBall.transform.position;
         Ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
@@ -154,5 +158,36 @@ public class GameController : MonoBehaviour
         scoreP1 = 0;
         scoreP2 = 0;
         SceneManager.LoadScene("GameScene");
+    }
+
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "GameScene")
+        {
+            timerTimer -= Time.deltaTime;
+            SetTimer(timerTimer);
+            if (timerTimer <= 0)
+            {
+                if (scoreP1 > scoreP2)
+                {
+                    teamWinner = "Team 1 Win";
+                }
+                else if (scoreP1 < scoreP2)
+                {
+                    teamWinner = "Team 2 Win";
+                }
+                else if (scoreP1 == scoreP2)
+                {
+                    teamWinner = "Draw";
+                }
+                EndGame();
+            }
+        }
+    }
+    private void SetTimer(float time)
+    {
+        int minutes = Mathf.FloorToInt(time / 60);
+        int seconds = Mathf.FloorToInt(time % 60);
+        timerGo.GetComponent<TMPro.TMP_Text>().text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 }

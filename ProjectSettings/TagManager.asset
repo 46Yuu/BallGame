@@ -9,6 +9,8 @@ TagManager:
   - EnergyP1
   - EnergyP2
   - PoundParticles
+  - Manager
+  - Timer
   - EnergyP3
   - EnergyP4
   layers:

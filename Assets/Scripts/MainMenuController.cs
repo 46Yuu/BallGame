@@ -27,12 +27,14 @@ public class MainMenuController : MonoBehaviour
     
     public void Menu()
     {
-        foreach (PlayerInput player in PlayerManager.Instance._players)
+        SceneManager.LoadScene(0);
+        foreach (var player in PlayerManager.Instance._players)
         {
             Destroy(player.gameObject);
         }
+        Destroy(GameObject.FindGameObjectWithTag("Manager"));
+        Time.timeScale = 1;
         PlayerManager.Instance._players.Clear();
-        SceneManager.LoadScene(0);
     }
     public void MainMenuButton()
     {
