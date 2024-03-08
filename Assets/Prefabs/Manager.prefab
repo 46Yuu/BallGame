@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5507031898436317645}
   m_Layer: 0
   m_Name: Manager
-  m_TagString: Untagged
+  m_TagString: Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,6 +98,10 @@ PrefabInstance:
     - target: {fileID: 396899321841043555, guid: e5aec0b84c42b5949b702de2ffe96629, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 634372941398174309, guid: e5aec0b84c42b5949b702de2ffe96629, type: 3}
+      propertyPath: scoreToWin
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2301420329100190683, guid: e5aec0b84c42b5949b702de2ffe96629, type: 3}
       propertyPath: m_JoinBehavior

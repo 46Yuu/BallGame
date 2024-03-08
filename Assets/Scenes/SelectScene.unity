@@ -1938,7 +1938,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 53979224299422385, guid: d21c6cb6917df904b90ce81ef765599b, type: 3}
       propertyPath: scoreToWin
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1278029073643227773, guid: d21c6cb6917df904b90ce81ef765599b, type: 3}
       propertyPath: m_LocalPosition.x
