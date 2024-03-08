@@ -7,7 +7,7 @@ public class CageController : MonoBehaviour
 {
     [SerializeField] GameController gameController;
     [SerializeField] HUDController hudController;
-    enum PlayerGoal { Goal_1,Goal_2};
+    enum PlayerGoal { Goal_1, Goal_2 };
     [SerializeField] PlayerGoal goal;
     private bool canScore = true;
 
@@ -37,7 +37,10 @@ public class CageController : MonoBehaviour
         Time.timeScale = 1;
         hudController.textGoal.gameObject.SetActive(false);
         yield return new WaitForSeconds(1);
-        GameController.GetInstance().RoundStart();
+        if (!GameController.GetInstance().CheckScore())
+        {
+            GameController.GetInstance().RoundStart();
+        }
         canScore = true;
     }
 

@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class GameController : MonoBehaviour
 {
@@ -22,6 +24,9 @@ public class GameController : MonoBehaviour
     public int scoreToWin = 10;
 
     public int numberOfPlayers = 2;
+
+    public string teamWinner;
+    private GameObject winPanel;
 
     public GameObject Ball;
     private GameObject startPosBall;
@@ -62,6 +67,9 @@ public class GameController : MonoBehaviour
         startPosP2_4P = GameObject.Find("startPosP2_2P");
         startPosP3_4P = GameObject.Find("startPosP2_2P");
         startPosP4_4P = GameObject.Find("startPosP2_2P");
+
+        winPanel = GameObject.Find("WinPanel");
+        winPanel.SetActive(false);
 
         RoundStart();
     }
@@ -104,17 +112,38 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void CheckScore()
+    public bool CheckScore()
     {
         if (scoreP1 == scoreToWin || scoreP2 == scoreToWin)
         {
-            SceneManager.LoadScene(0);
-            scoreP1 = 0;
-            scoreP2 = 0;
+            if(scoreP1 > scoreP2)
+            {
+                teamWinner = "Team 1 Win";
+            }
+            else if (scoreP1 < scoreP2)
+            {
+                teamWinner = "Team 2 Win";
+            }   
+            else if (scoreP1 == scoreP2)
+            {
+                teamWinner = "Draw";
+            }
+            EndGame();
+            return true;
         }
-
+        return false;
     }
-
+    private void EndGame()
+    {
+        Time.timeScale = 0;
+        winPanel.SetActive(true);
+        winPanel.GetComponentInChildren<TMPro.TMP_Text>().text = teamWinner ;
+        UIManager.GetInstance().eventSystem.SetSelectedGameObject(winPanel.transform.Find("Restart").gameObject);
+        foreach(PlayerInput player in PlayerManager.Instance._players)
+        {
+            player.gameObject.GetComponent<PlayerController>().energySlider.gameObject.SetActive(false);
+        }
+    }
     public GameObject GetBall()
     {
         return Ball;

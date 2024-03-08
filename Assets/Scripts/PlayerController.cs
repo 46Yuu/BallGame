@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int _playerIndex;
 
     [SerializeField] private Animator anim;
-    [SerializeField] private Slider energySlider;
+    [SerializeField] public Slider energySlider;
 
     int isWalkingHash;
     int isRunningHash;

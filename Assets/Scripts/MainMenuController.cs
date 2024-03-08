@@ -19,6 +19,10 @@ public class MainMenuController : MonoBehaviour
     {
 
     }
+    public void Restart()
+    {
+        //GameController.GetInstance().Restart();
+    }
     
     public void MainMenuButton()
     {
