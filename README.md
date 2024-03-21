@@ -1,10 +1,10 @@
 # BallGameUnity
-# Presentation 
+## Presentation 
 Jeu de football d'arcade sur unity.
 
-# Auteurs 
-46Yuu 
-Draknut
+## Auteurs 
+- 46Yuu 
+- Draknut
 
-# Installation
+## Installation
 Lancer le .exe dans le dossier Build
