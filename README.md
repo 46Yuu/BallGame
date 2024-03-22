@@ -9,5 +9,5 @@ https://github.com/46Yuu/BallGame/assets/96592212/0288404e-cd42-4ecc-afd4-e8f209
 - 46Yuu 
 - Draknut
 
-## Installation
+## Setup
 Lancer le .exe dans le dossier Build
